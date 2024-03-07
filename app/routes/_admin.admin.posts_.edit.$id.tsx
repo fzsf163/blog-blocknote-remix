@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Link, MetaFunction, json, useLoaderData } from "@remix-run/react";
 import { authenticator } from "~/utils/auth.server";
+import { requireUserSession } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,9 +11,10 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async ({ request, params }: LoaderFunctionArgs) => {
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/admin",
-  });
+  const session = await requireUserSession(request);
+  // await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/admin",
+  // });
   return json(params);
 };
 

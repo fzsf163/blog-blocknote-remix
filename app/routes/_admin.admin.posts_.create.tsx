@@ -9,6 +9,7 @@ import EditorBlockNote from "~/components/blockNote.client";
 import { useState } from "react";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { authenticator } from "~/utils/auth.server";
+import { requireUserSession } from "~/utils/session.server";
 export const meta: MetaFunction = () => {
   return [
     { title: "admin/create page" },
@@ -23,11 +24,11 @@ export const links: LinksFunction = () => [
 ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  // const session = await requireUserSession(request);
+  const session = await requireUserSession(request);
   // return json({ login: session });
-  await authenticator.isAuthenticated(request, {
-    failureRedirect: "/admin",
-  });
+  // await authenticator.isAuthenticated(request, {
+  //   failureRedirect: "/admin",
+  // });
   return "ok";
 };
 export default function Admin_Posts_Create() {

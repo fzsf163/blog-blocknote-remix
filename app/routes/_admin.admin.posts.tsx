@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
 // };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-   const session2 = await requireUserSession(request);
+   const session = await requireUserSession(request);
   // await authenticator.isAuthenticated(request, {
   //   failureRedirect: "/admin",
   // });

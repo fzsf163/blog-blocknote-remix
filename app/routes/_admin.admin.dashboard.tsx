@@ -22,7 +22,7 @@ export const handle = {
 };
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const session2 = await requireUserSession(request);
+  const session = await requireUserSession(request);
   // console.log("🚀 ~ loader ~ session2:", session2.get("userID"));
   // get the user data or redirect to /login if it failed
   // await authenticator.isAuthenticated(request, {
@@ -36,7 +36,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // const session = await getSession(
   //   request.headers.get("Cookie"),
   // );
-  const user = session2.data?.sessionKey?.userID;
+  const user = session.data?.sessionKey?.userID;
   console.log("🚀 ~ loader ~ user:", user);
 
   const u = await db.user.findUnique({
