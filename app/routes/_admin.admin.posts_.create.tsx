@@ -36,7 +36,13 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 export default function Admin_Posts_Create() {
   const [data, setData] = useState<string>();
+  const [values, setValues] = useState({
+    v1: "",
+    v2: "",
+    v3: "",
+  });
   console.log("🚀 ~ Admin_Posts_Create ~ data:", data);
+  console.log("🚀 ~ Admin_Posts_Create ~ values:", values);
   return (
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:bg-white [&_input]:focus-within:ring-0">
       <h1 className="text-3xl font-bold">Blog Creation</h1>
@@ -82,7 +88,10 @@ export default function Admin_Posts_Create() {
           >
             Category
           </Label>
-          <DropdownMenuCheckboxesCategory></DropdownMenuCheckboxesCategory>
+          <DropdownMenuCheckboxesCategory
+            values={values}
+            setValues={setValues}
+          ></DropdownMenuCheckboxesCategory>
         </div>
         <div className="flex items-center justify-start gap-5">
           <Label
@@ -113,7 +122,7 @@ export default function Admin_Posts_Create() {
       </div>
       <hr />
       <div className="flex items-start justify-end gap-5">
-        <Button>Submit & Publish</Button>
+        <Button disabled={data ? false : true}>Submit & Publish</Button>
         <Button>Submit & Draft</Button>
         <Button>Discard</Button>
       </div>
