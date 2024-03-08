@@ -61,15 +61,15 @@ export async function action({ request }: ActionFunctionArgs) {
 // authenticated with `authenticator.isAuthenticated` and redirect to the
 // dashboard if it is or return null if it's not
 export async function loader({ request }: LoaderFunctionArgs) {
-  const session = await requireUserSession(request);
+  // const session = await requireUserSession(request);
   // console.log("🚀 ~ loader ~ session2:", session2.get("userID"));
   // If the user is already authenticated redirect to /dashboard directly
   // await authenticator.isAuthenticated(request, {
   //   successRedirect: "/admin/dashboard",
   // });
-  // const session = await sessionStorage.getSession(
-  //   request.headers.get("Cookie"),
-  // );
+  const session = await sessionStorage.getSession(
+    request.headers.get("Cookie"),
+  );
 
   const error = session.get("sessionErrorKey");
   return json<any>(error ? { error } : { OK: "ok" });
