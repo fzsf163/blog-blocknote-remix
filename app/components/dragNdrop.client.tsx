@@ -49,7 +49,7 @@ export default function MyDropzone() {
   });
 
   return (
-    <div {...getRootProps()}>
+    <div {...getRootProps({className:"cursor-pointer"})}>
       <input {...getInputProps()} />
       {isDragActive ? (
         <p className="rounded-sm bg-green-400 p-5 font-mono text-lg font-bold">
@@ -60,7 +60,7 @@ export default function MyDropzone() {
           Drag 'n' drop some files here, or click to select files
         </p>
       )}
-      {/* {images && <img className="size-9/12" src={images?.file?.url}></img>} */}
+      {images && <img className="size-9/12 mt-3 rounded" src={images?.file?.url}></img>}
     </div>
   );
 }
