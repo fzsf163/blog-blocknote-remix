@@ -123,7 +123,7 @@ export default function Admin_Posts_Create() {
       <hr />
       <div className="flex items-start justify-end gap-5">
         <Button disabled={data ? false : true}>Submit & Publish</Button>
-        <Button>Submit & Draft</Button>
+        <Button disabled={data ? false : true}>Submit & Draft</Button>
         <Button>Discard</Button>
       </div>
     </div>
