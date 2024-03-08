@@ -1,4 +1,5 @@
-import { MetaFunction } from "@remix-run/react";
+import type { ActionFunctionArgs } from "@remix-run/node";
+import { Form, MetaFunction, useSubmit } from "@remix-run/react";
 import MyDropzone from "~/components/dragNdrop.client";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -34,15 +35,31 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // });
   return "ok";
 };
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const k = await request.json();
+  console.log(k);
+  return { ok: "OK" };
+};
+
 export default function Admin_Posts_Create() {
-  const [data, setData] = useState<string>();
+  const submit = useSubmit();
+  const [data, setData] = useState<string>("");
   const [values, setValues] = useState({
     v1: "",
     v2: "",
     v3: "",
   });
-  console.log("🚀 ~ Admin_Posts_Create ~ data:", data);
-  console.log("🚀 ~ Admin_Posts_Create ~ values:", values);
+  const [blogData, setBlogData] = useState({
+    title: "",
+    subtitle: "",
+    keywords: "",
+    readtime: "",
+  });
+  const [thumbImg, setThumbImg] = useState<string>("");
+  // console.log("🚀 ~ Admin_Posts_Create ~ thumbImg:", thumbImg)
+  // console.log("🚀 ~ Admin_Posts_Create ~ data:", data);
+  // console.log("🚀 ~ Admin_Posts_Create ~ values:", values);
   return (
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:bg-white [&_input]:focus-within:ring-0">
       <h1 className="text-3xl font-bold">Blog Creation</h1>
@@ -111,7 +128,7 @@ export default function Admin_Posts_Create() {
       <div className="space-y-3">
         <h5 className="text-lg font-bold">Add a thumbnail</h5>
         <ClientOnly fallback={<div>Loading....</div>}>
-          {() => <MyDropzone></MyDropzone>}
+          {() => <MyDropzone setThumbImg={setThumbImg}></MyDropzone>}
         </ClientOnly>
       </div>
       <div className="space-y-3">
@@ -122,7 +139,24 @@ export default function Admin_Posts_Create() {
       </div>
       <hr />
       <div className="flex items-start justify-end gap-5">
-        <Button disabled={data ? false : true}>Submit & Publish</Button>
+        <Form navigate={false}>
+          <Button
+            disabled={data ? false : true}
+            onClick={() =>
+              submit(
+                { values, blogData, thumbImg, data, published: true },
+                {
+                  encType: "application/json",
+                  navigate: false,
+                  preventScrollReset: true,
+                  method: "POST",
+                },
+              )
+            }
+          >
+            Submit & Publish
+          </Button>
+        </Form>
         <Button disabled={data ? false : true}>Submit & Draft</Button>
         <Button>Discard</Button>
       </div>

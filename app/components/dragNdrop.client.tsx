@@ -1,17 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFileUpload } from "~/utils/imageUploader";
 
-type FILE = {
-  path: string;
-  name: string;
-  lastModified: number;
-  lastModifiedDate: Date;
-  webkitRelativePath?: string;
-  size: number;
-  type: string;
+type Data = {
+  setThumbImg: React.Dispatch<React.SetStateAction<string>>;
 };
-export default function MyDropzone() {
+export default function MyDropzone({ setThumbImg }: Data) {
   const { images, isUploading, submit } = useFileUpload();
   const onDrop = useCallback((acceptedFiles: any) => {
     console.log("🚀 ~ onDrop ~ acceptedFiles:", acceptedFiles);
@@ -36,6 +30,10 @@ export default function MyDropzone() {
     });
   }, []);
 
+  useEffect(() => {
+    if (images?.file?.url === "") return;
+    setThumbImg(images?.file?.url);
+  }, [images]);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: false,
@@ -49,7 +47,7 @@ export default function MyDropzone() {
   });
 
   return (
-    <div {...getRootProps({className:"cursor-pointer"})}>
+    <div {...getRootProps({ className: "cursor-pointer" })}>
       <input {...getInputProps()} />
       {isDragActive ? (
         <p className="rounded-sm bg-green-400 p-5 font-mono text-lg font-bold">
@@ -60,7 +58,9 @@ export default function MyDropzone() {
           Drag 'n' drop some files here, or click to select files
         </p>
       )}
-      {images && <img className="size-9/12 mt-3 rounded" src={images?.file?.url}></img>}
+      {images && (
+        <img className="mt-3 size-9/12 rounded" src={images?.file?.url}></img>
+      )}
     </div>
   );
 }
