@@ -76,8 +76,8 @@
 } */
 
 .bn-container .bn-slash-menu .mantine-Menu-item[data-hovered] {
-  background-color: whitesmoke;
-  color: black;
+  background-color: black;
+  color: whitesmoke;
 }
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
