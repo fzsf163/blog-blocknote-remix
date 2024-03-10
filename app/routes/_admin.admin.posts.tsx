@@ -34,23 +34,24 @@ export default function Admin_Posts() {
   const userLoaderData = useLoaderData<typeof loader>();
   const blogsFromdb = userLoaderData.data;
   console.log("🚀 ~ Admin_Posts ~ userLoaderData:", blogsFromdb);
-  let blgs: Blog_Posts[] = [];
+  let blogs: Blog_Posts[] = [];
   if (typeof blogsFromdb === "object") {
     blogsFromdb.forEach((x) => {
-      return blgs.push({
+      return blogs.push({
         author: x.author.name!,
         id: x.id,
         title: x.title,
         status: x.published ? "Visible" : "Hidden",
         read: x.readCount,
         published: x.createdAt,
+        readTime: x.readTime,
       });
     });
   }
-  console.log("🚀 ~ Admin_Posts ~ blgs:", blgs);
+  console.log("🚀 ~ Admin_Posts ~ blgs:", blogs);
   return (
     <div className="text-4xl text-green-200">
-      <DataTable columns={columns} data={blgs}></DataTable>
+      <DataTable columns={columns} data={blogs}></DataTable>
     </div>
   );
 }

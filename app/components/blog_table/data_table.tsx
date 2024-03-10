@@ -85,7 +85,6 @@ export function DataTable<TData, TValue>({
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div> */}
-
       <div className="flex w-full items-center justify-center gap-10">
         <div className="flex items-center justify-center gap-10">
           <Input
@@ -158,14 +157,14 @@ export function DataTable<TData, TValue>({
           <Link to={"/admin/posts/create"}>Creat a Post</Link>
         </Button>
       </div>
-
-      <Table className="mt-10 bg-black/50 text-white">
+      {/* actual table */}
+      <Table className="mt-5 bg-black/30 text-white">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} className="text-center">
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -178,16 +177,16 @@ export function DataTable<TData, TValue>({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className="">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className=" data-[state=selected]:bg-green-300 data-[state=selected]:text-black"
+                className=" data-[state=selected]:bg-green-100 data-[state=selected]:text-black hover:bg-black"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell className="" key={cell.id}>
+                  <TableCell className="text-center" key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -205,8 +204,8 @@ export function DataTable<TData, TValue>({
 
       <div className="flex items-center justify-end space-x-2 p-4 text-black">
         <span className="flex items-center gap-1 text-lg">
-          <div>Page</div>
-          <strong>
+          <div className="font-mono">Page</div>
+          <strong className="font-mono">
             {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount().toLocaleString()}
           </strong>
@@ -216,7 +215,7 @@ export function DataTable<TData, TValue>({
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
-          className="disabled:text-gray-400"
+          className="font-mono disabled:text-gray-400"
         >
           Previous
         </Button>
@@ -225,11 +224,11 @@ export function DataTable<TData, TValue>({
           size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
-          className="disabled:text-gray-400"
+          className="font-mono disabled:text-gray-400"
         >
           Next
         </Button>
-        <span className="flex items-center gap-1 text-lg">
+        <span className="flex items-center gap-1 font-mono text-lg">
           | Go to page:
           <input
             type="number"
@@ -238,7 +237,7 @@ export function DataTable<TData, TValue>({
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               table.setPageIndex(page);
             }}
-            className="w-16 rounded border p-1"
+            className="w-16 rounded border px-3 py-1 font-mono"
             min={1}
             max={table.getPageCount().toLocaleString()}
           />
@@ -248,11 +247,11 @@ export function DataTable<TData, TValue>({
           onChange={(e) => {
             table.setPageSize(Number(e.target.value));
           }}
-          className="text-lg p-1 rounded-sm"
+          className="rounded-sm px-1 py-2 font-mono text-lg"
         >
           {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
+            <option key={pageSize} value={pageSize} className="m-2">
+              <p className="m-2"> Show {pageSize}</p>
             </option>
           ))}
         </select>
