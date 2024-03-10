@@ -31,8 +31,6 @@ const admin_routes = [
   { label: "Action Center", href: "/admin/actioncenter" },
 ];
 
-
-
 export default function Admin_Layout() {
   return (
     <div className="h-full">
@@ -108,7 +106,7 @@ export default function Admin_Layout() {
           </ol>
         </div> */}
 
-        <ScrollArea className="h-[100dvh] w-full ">
+        <ScrollArea className="w-[60%]   h-[100dvh] mx-auto ">
           <Outlet></Outlet>
         </ScrollArea>
       </div>

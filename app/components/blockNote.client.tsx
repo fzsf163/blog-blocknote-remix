@@ -58,7 +58,7 @@ export default function EditorBlockNote({ setData }: Data) {
     },
     domAttributes: {
       editor: {
-        class: "p-5",
+        class: "p-5 ",
       },
     },
     uploadFile: handleImageUplaod,
@@ -66,10 +66,10 @@ export default function EditorBlockNote({ setData }: Data) {
 
   // Renders the editor instance using a React component.
   return (
-    <div>
+    <div className="placeholder:font-semibold">
       <BlockNoteView editor={editor} theme={"light"}></BlockNoteView>
-      <pre>{html}</pre>
-      <div className="prose lg:prose-xl" dangerouslySetInnerHTML={theObj} />
+      {/* <pre>{html}</pre> */}
+      {/* <div className="prose lg:prose-xl" dangerouslySetInnerHTML={theObj} /> */}
     </div>
   );
 }
