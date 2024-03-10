@@ -1,18 +1,26 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
-import { Form, MetaFunction, useNavigate, useSubmit } from "@remix-run/react";
+import {
+  Form,
+  MetaFunction,
+  useActionData,
+  useNavigate,
+  useSubmit,
+} from "@remix-run/react";
 import MyDropzone from "~/components/dragNdrop.client";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { ClientOnly } from "remix-utils/client-only";
-import { LinksFunction } from "@remix-run/node";
+import { LinksFunction, json } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import EditorBlockNote from "~/components/blockNote.client";
 import { useState } from "react";
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { requireUserSession } from "~/utils/session.server";
+import { getSession, requireUserSession } from "~/utils/session.server";
 import { DropdownMenuCheckboxesCategory } from "~/components/categoryCheckbox";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
+import { db } from "~/utils/db.server";
+import { PrismaClientValidationError } from "@prisma/client/runtime/library";
 
 export const meta: MetaFunction = () => {
   return [
@@ -36,15 +44,58 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return "ok";
 };
 
+export type BlogSereverDataModel = {
+  category: {
+    c1: string;
+    c2: string;
+    c3: string;
+  };
+  blogData: {
+    title: string;
+    subtitle: string;
+    keywords: string;
+    readtime: string;
+  };
+  thumbImg: string;
+  data: string;
+  published: boolean;
+};
+
 export const action = async ({ request }: ActionFunctionArgs) => {
-  const k = await request.json();
+  const k: BlogSereverDataModel = await request.json();
+  const { blogData, data, published, thumbImg, category } = k;
+  let cat = JSON.stringify(category);
+  const session = await getSession(request.headers.get("Cookie"));
+  const user = session.data?.sessionKey?.userID;
   if (k) {
     console.log(k);
+    try {
+      await db.post.create({
+        data: {
+          title: blogData.title,
+          subTitle: blogData.subtitle,
+          keywords: blogData.keywords,
+          readTime: blogData.readtime,
+          category: cat,
+          thumbanail: thumbImg,
+          authorId: user,
+          content: data,
+          published: published,
+        },
+      });
+    } catch {
+      (error: any) => {
+        throw new Response(error);
+      };
+    }
+    return json({ data_Submission: "successful" });
   }
-  return { ok: "OK" };
+  return { successful: "nah mate" };
 };
 
 export default function Admin_Posts_Create() {
+  const userActionData = useActionData<typeof action>();
+  console.log("🚀 ~ Admin_Posts_Create ~ userActionData:", userActionData);
   const submit = useSubmit();
   const navigate = useNavigate();
   const [data, setData] = useState<string>("");
@@ -66,7 +117,7 @@ export default function Admin_Posts_Create() {
     navigate(".", { replace: true });
   };
 
-  console.log("🚀 ~ Admin_Posts_Create ~ thumbImg:", thumbImg);
+  // console.log("🚀 ~ Admin_Posts_Create ~ thumbImg:", thumbImg);
   // console.log("🚀 ~ Admin_Posts_Create ~ data:", data);
   // console.log("🚀 ~ Admin_Posts_Create ~ values:", values);
   let uuid = crypto.randomUUID();
@@ -178,7 +229,13 @@ export default function Admin_Posts_Create() {
             disabled={data ? false : true}
             onClick={() =>
               submit(
-                { values: category, blogData, thumbImg, data, published: true },
+                {
+                  category: category,
+                  blogData,
+                  thumbImg,
+                  data,
+                  published: true,
+                },
                 {
                   encType: "application/json",
                   navigate: false,
@@ -197,7 +254,7 @@ export default function Admin_Posts_Create() {
             onClick={() =>
               submit(
                 {
-                  values: category,
+                  category: category,
                   blogData,
                   thumbImg,
                   data,

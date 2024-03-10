@@ -22,6 +22,7 @@ model Post {
   keywords   String
   category   String
   thumbanail String
+  readCount  Int      @default(0)
   author     User     @relation(fields: [authorId], references: [id])
   authorId   String
 }
@@ -50,7 +51,8 @@ model Commenters {
 }
 
 model Comments {
-  id         String     @id @default(uuid())
-  comments   String
-  commentors Commenters @relation(fields: [id], references: [id])
+  id          String     @id @default(uuid())
+  comments    String
+  commentors  Commenters @relation(fields: [commenterId], references: [id])
+  commenterId String
 }
