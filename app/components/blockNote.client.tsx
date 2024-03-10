@@ -5,9 +5,10 @@ import { useFetcher } from "@remix-run/react";
 import { useState } from "react";
 
 type Data = {
+  data?: string;
   setData: (x: string) => void;
 };
-export default function EditorBlockNote({ setData }: Data) {
+export default function EditorBlockNote({ setData, data }: Data) {
   const [html, setHTML] = useState<string>("");
   const theObj = { __html: html };
   const fetcher = useFetcher();
@@ -40,14 +41,19 @@ export default function EditorBlockNote({ setData }: Data) {
     console.log("🚀 ~ handleImageUplaod ~ url:", url.file.url);
     return url.file.url;
   };
-
+  let intContent;
+  if (data) {
+    intContent = JSON.parse(data);
+    console.log("🚀 ~ EditorBlockNote ~ intContent:", intContent);
+  }
   // Creates a new editor instance.
   const editor: BlockNoteEditor = useBlockNote({
+    initialContent: intContent || undefined,
     onEditorContentChange: (editor) => {
       // Log the document to console on every update
       let ctx = editor.topLevelBlocks;
       setData(JSON.stringify(ctx));
-      console.log(JSON.stringify(ctx));
+      // console.log(JSON.stringify(ctx));
       const saveBlocksAsHTML = async () => {
         const html: string = await editor.blocksToHTMLLossy(
           editor.topLevelBlocks,
@@ -58,7 +64,7 @@ export default function EditorBlockNote({ setData }: Data) {
     },
     domAttributes: {
       editor: {
-        class: "p-5 ",
+        class: "p-10",
       },
     },
     uploadFile: handleImageUplaod,
@@ -66,8 +72,8 @@ export default function EditorBlockNote({ setData }: Data) {
 
   // Renders the editor instance using a React component.
   return (
-    <div className="placeholder:font-semibold">
-      <BlockNoteView editor={editor} theme={"light"}></BlockNoteView>
+    <div>
+      <BlockNoteView editor={editor}></BlockNoteView>
       {/* <pre>{html}</pre> */}
       {/* <div className="prose lg:prose-xl" dangerouslySetInnerHTML={theObj} /> */}
     </div>

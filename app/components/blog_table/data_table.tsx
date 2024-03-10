@@ -251,7 +251,7 @@ export function DataTable<TData, TValue>({
         >
           {[10, 20, 30, 40, 50].map((pageSize) => (
             <option key={pageSize} value={pageSize} className="m-2">
-              <p className="m-2"> Show {pageSize}</p>
+              Show {pageSize}
             </option>
           ))}
         </select>

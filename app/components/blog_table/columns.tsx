@@ -148,18 +148,10 @@ export const columns: ColumnDef<Blog_Posts>[] = [
 
       return (
         <div>
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            onClick={() => console.log(a.id)}
-          >
+          <Button variant={"ghost"} size={"icon"}>
             <Trash></Trash>
           </Button>
-          <Button
-            variant={"ghost"}
-            size={"icon"}
-            onClick={() => console.log(a.id)}
-          >
+          <Button variant={"ghost"} size={"icon"}>
             <Link to={`/admin/posts/edit/${a.id}`}>
               <Edit2></Edit2>
             </Link>

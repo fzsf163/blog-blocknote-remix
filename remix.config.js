@@ -7,4 +7,5 @@ export default {
   // serverBuildPath: "build/index.js",
   tailwind: true,
   postcss: true,
+  serverDependenciesToBundle: [/^@blocknote/],
 };

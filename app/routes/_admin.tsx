@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Link,
   MetaFunction,
@@ -12,6 +12,7 @@ import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { authenticator } from "~/utils/auth.server";
+import { cssBundleHref } from "@remix-run/css-bundle";
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,7 +20,9 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
-
+export const links: LinksFunction = () => [
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+];
 type HandleType = {
   breadcrumb: (param?: string) => React.ReactNode;
 };

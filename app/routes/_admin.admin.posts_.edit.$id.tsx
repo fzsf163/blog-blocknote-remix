@@ -1,6 +1,9 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { Link, MetaFunction, json, useLoaderData } from "@remix-run/react";
-import { authenticator } from "~/utils/auth.server";
+import { MetaFunction, useLoaderData } from "@remix-run/react";
+import { useState } from "react";
+import { ClientOnly } from "remix-utils/client-only";
+import EditorBlockNote from "~/components/blockNote.client";
+import { db } from "~/utils/db.server";
 import { requireUserSession } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
@@ -15,15 +18,44 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   // await authenticator.isAuthenticated(request, {
   //   failureRedirect: "/admin",
   // });
-  return json(params);
+  let id = params?.id;
+  console.log("🚀 ~ loader ~ id:", id);
+  try {
+    let post = await db.post.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    return post;
+  } catch (error) {}
+  return { post: "None Found" };
 };
 
 export default function Admin_Posts_Edit_One() {
-  const { id } = useLoaderData<typeof loader>();
-  console.log("🚀 ~ Admin_Posts_Edit_One ~ id:", id);
+  const post = useLoaderData<typeof loader>();
+  let p: string | undefined;
+  if (typeof post === "object") {
+    // @ts-ignore
+    p = post?.content;
+  }
+  const [data, setData] = useState<string>("");
+  console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", p);
+
   return (
-    <div className="text-4xl text-green-200">
-      <h1>Admin Edit {id} page</h1>
+    <div className="font-mono text-4xl">
+      <h1 className="mb-2"> Edit a Post</h1>
+      <hr />
+      <div className="mt-10">
+        <ClientOnly fallback={<p>Loading....</p>}>
+          {() => (
+            <EditorBlockNote
+              key={"edit-post-one"}
+              data={p}
+              setData={setData}
+            ></EditorBlockNote>
+          )}
+        </ClientOnly>
+      </div>
     </div>
   );
 }
