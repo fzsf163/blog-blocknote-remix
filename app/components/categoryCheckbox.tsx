@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
@@ -15,15 +14,15 @@ import {
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 type Values = {
   values: {
-    v1: string;
-    v2: string;
-    v3: string;
+    c1: string;
+    c2: string;
+    c3: string;
   };
   setValues: React.Dispatch<
     React.SetStateAction<{
-      v1: string;
-      v2: string;
-      v3: string;
+      c1: string;
+      c2: string;
+      c3: string;
     }>
   >;
 };
@@ -34,25 +33,24 @@ export function DropdownMenuCheckboxesCategory({ values, setValues }: Values) {
 
   React.useEffect(() => {
     if (showStatusBar === false) {
-      setValues({ ...values, v1: "" });
+      setValues({ ...values, c1: "" });
     }
   }, [showStatusBar]);
   React.useEffect(() => {
     if (showActivityBar === false) {
-      setValues({ ...values, v2: "" });
+      setValues({ ...values, c2: "" });
     }
   }, [showActivityBar]);
   React.useEffect(() => {
     if (showPanel === false) {
-      setValues({ ...values, v3: "" });
+      setValues({ ...values, c3: "" });
     }
   }, [showPanel]);
-
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className=" w-[10rem] text-black">
+        <Button variant="outline" className="w-[10rem] text-black text-lg font-mono font-bold">
           Select
         </Button>
       </DropdownMenuTrigger>
@@ -66,7 +64,7 @@ export function DropdownMenuCheckboxesCategory({ values, setValues }: Values) {
           onCheckedChange={setShowStatusBar}
           onSelect={(e) => e.preventDefault()}
           onClick={(e) =>
-            setValues({ ...values, v1: e.currentTarget.innerText })
+            setValues({ ...values, c1: e.currentTarget.innerText })
           }
         >
           Spiritual
@@ -76,7 +74,7 @@ export function DropdownMenuCheckboxesCategory({ values, setValues }: Values) {
           onCheckedChange={setShowActivityBar}
           onSelect={(e) => e.preventDefault()}
           onClick={(e) =>
-            setValues({ ...values, v2: e.currentTarget.innerText })
+            setValues({ ...values, c2: e.currentTarget.innerText })
           }
         >
           Option 2
@@ -86,7 +84,7 @@ export function DropdownMenuCheckboxesCategory({ values, setValues }: Values) {
           onCheckedChange={setShowPanel}
           onSelect={(e) => e.preventDefault()}
           onClick={(e) =>
-            setValues({ ...values, v3: e.currentTarget.innerText })
+            setValues({ ...values, c3: e.currentTarget.innerText })
           }
         >
           Option 3

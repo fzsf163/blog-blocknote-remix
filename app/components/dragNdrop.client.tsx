@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useFileUpload } from "~/utils/imageUploader";
+import { Button } from "./ui/button";
 
 type Data = {
   setThumbImg: React.Dispatch<React.SetStateAction<string>>;
@@ -9,6 +10,7 @@ export default function MyDropzone({ setThumbImg }: Data) {
   const { images, isUploading, submit } = useFileUpload();
   const onDrop = useCallback((acceptedFiles: any) => {
     console.log("🚀 ~ onDrop ~ acceptedFiles:", acceptedFiles);
+
     // Do something with the files
     acceptedFiles.forEach((file: Blob) => {
       console.log("🚀 ~ acceptedFiles.forEach ~ file:", file);
@@ -34,6 +36,7 @@ export default function MyDropzone({ setThumbImg }: Data) {
     if (images?.file?.url === "") return;
     setThumbImg(images?.file?.url);
   }, [images]);
+
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     multiple: false,
@@ -47,20 +50,27 @@ export default function MyDropzone({ setThumbImg }: Data) {
   });
 
   return (
-    <div {...getRootProps({ className: "cursor-pointer" })}>
-      <input {...getInputProps()} />
+    <div
+      {...getRootProps({
+        className:
+          "cursor-pointer rounded-sm bg-green-400 p-5 font-mono text-lg font-bold hover:bg-green-200 hover:text-black transition-all duration-150 ease-in-out",
+      })}
+    >
+      <input
+        {...getInputProps({
+          className: "",
+        })}
+      />
       {isDragActive ? (
-        <p className="rounded-sm bg-green-400 p-5 font-mono text-lg font-bold">
-          Drop the files here ...
-        </p>
+        <p>Drop the files here ...</p>
       ) : (
-        <p className="rounded-sm bg-green-400 p-5 font-mono text-lg font-bold">
-          Drag 'n' drop some files here, or click to select files
-        </p>
+        <p>Drag 'n' drop some files here, or click to select files</p>
       )}
-      {images && (
-        <img className="mt-3 size-9/12 rounded" src={images?.file?.url}></img>
-      )}
+      {/* {images && (
+        <div>
+          <img className="mt-3 size-9/12 rounded" src={images?.file?.url}></img>
+        </div>
+      )} */}
     </div>
   );
 }
