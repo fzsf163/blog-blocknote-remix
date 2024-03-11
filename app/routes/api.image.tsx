@@ -45,8 +45,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         ),
       );
 
-      console.log(formData);
-
       let files = formData.get("image") as NodeOnDiskFile;
 
       return json({

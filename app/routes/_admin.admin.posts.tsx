@@ -1,5 +1,11 @@
+import type { ActionFunctionArgs } from "@remix-run/node";
 import type { LoaderFunctionArgs } from "@remix-run/node";
-import { MetaFunction, json, useLoaderData } from "@remix-run/react";
+import {
+  MetaFunction,
+  json,
+  useActionData,
+  useLoaderData,
+} from "@remix-run/react";
 import { Blog_Posts, columns } from "~/components/blog_table/columns";
 import { DataTable } from "~/components/blog_table/data_table";
 import { authenticator } from "~/utils/auth.server";
@@ -30,10 +36,42 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return json({ data: "Nothing found" });
 };
 
+export const action = async ({ request }: ActionFunctionArgs) => {
+  switch (request.method) {
+    case "POST": {
+      return json({ method: "Post" });
+    }
+    case "PUT": {
+      return json({ method: "Put" });
+    }
+    case "PATCH": {
+      return json({ method: "Patch" });
+    }
+    case "DELETE": {
+      let d = await request.json();
+      console.log("🚀 ~ action ~ d:", d);
+      try {
+        let b = await db.post.delete({
+          where: {
+            id: d?.id,
+          },
+        });
+        return b;
+      } catch (error) {
+        (e: any) => {
+          return { e };
+        };
+      }
+    }
+  }
+};
+
 export default function Admin_Posts() {
   const userLoaderData = useLoaderData<typeof loader>();
+  // const userActionData = useActionData<typeof action>();
+
   const blogsFromdb = userLoaderData.data;
-  console.log("🚀 ~ Admin_Posts ~ userLoaderData:", blogsFromdb);
+  // console.log("🚀 ~ Admin_Posts ~ userLoaderData:", blogsFromdb);
   let blogs: Blog_Posts[] = [];
   if (typeof blogsFromdb === "object") {
     blogsFromdb.forEach((x) => {
@@ -48,9 +86,11 @@ export default function Admin_Posts() {
       });
     });
   }
-  console.log("🚀 ~ Admin_Posts ~ blgs:", blogs);
+
+  // console.log("🚀 ~ Admin_Posts ~ blgs:", blogs);
+
   return (
-    <div className="text-4xl text-green-200">
+    <div className=" ">
       <DataTable columns={columns} data={blogs}></DataTable>
     </div>
   );

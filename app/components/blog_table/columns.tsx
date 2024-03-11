@@ -2,7 +2,15 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown, Trash, Edit2 } from "lucide-react";
 import { Checkbox } from "~/components/ui/checkbox";
-import { Link } from "@remix-run/react";
+import { Form, Link, useSubmit } from "@remix-run/react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { useState } from "react";
+import { ClientOnly } from "remix-utils/client-only";
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Blog_Posts = {
@@ -15,6 +23,57 @@ export type Blog_Posts = {
   actions?: Function;
   readTime?: string;
 };
+type ID = {
+  id: string;
+};
+export function PopDelete({ id }: ID) {
+  const [isOpen, setIsOpen] = useState(false);
+  const submit = useSubmit();
+  return (
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
+      <PopoverTrigger>
+        <Trash></Trash>
+      </PopoverTrigger>
+      <PopoverContent className="flex w-fit flex-col items-center gap-5 border-none bg-red-400 text-white ring-0 [&_button]:border-none">
+        <p className="font-serif font-semibold">
+          {" "}
+          Do you really want to delete this post?{" "}
+        </p>
+        <div className=" flex items-center justify-center gap-8">
+          <Form navigate={false}>
+            <Button
+              variant={"outline"}
+              size={"lg"}
+              className="w-full bg-red-500 text-white hover:bg-green-600 hover:text-white"
+              onClick={() =>
+                submit(
+                  { id },
+                  {
+                    action: "/admin/posts",
+                    encType: "application/json",
+                    method: "DELETE",
+                    navigate: false,
+                  },
+                )
+              }
+            >
+              YES
+            </Button>
+          </Form>{" "}
+          <Button
+            variant={"outline"}
+            size={"lg"}
+            className=" w-full text-black hover:bg-green-600 hover:text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            NO
+          </Button>{" "}
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export const columns: ColumnDef<Blog_Posts>[] = [
   // {
   //   id: "select",
@@ -148,9 +207,8 @@ export const columns: ColumnDef<Blog_Posts>[] = [
 
       return (
         <div>
-          <Button variant={"ghost"} size={"icon"}>
-            <Trash></Trash>
-          </Button>
+          <ClientOnly>{() => <PopDelete id={a.id}></PopDelete>}</ClientOnly>
+
           <Button variant={"ghost"} size={"icon"}>
             <Link to={`/admin/posts/edit/${a.id}`}>
               <Edit2></Edit2>
