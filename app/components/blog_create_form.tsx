@@ -1,21 +1,63 @@
-import { MetaFunction } from "@remix-run/react";
-import { useState } from "react";
+import { Form, SubmitFunction } from "@remix-run/react";
+import MyDropzone from "~/components/dragNdrop.client";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { ClientOnly } from "remix-utils/client-only";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "author page" },
-    { name: "description", content: "Welcome to Remix!" },
-  ];
+import EditorBlockNote from "~/components/blockNote.client";
+
+import { DropdownMenuCheckboxesCategory } from "~/components/categoryCheckbox";
+import { Button } from "~/components/ui/button";
+import { Textarea } from "~/components/ui/textarea";
+import { db } from "~/utils/db.server";
+
+type BlogFormData = {
+  blogData: {
+    title: string;
+    subtitle: string;
+    keywords: string;
+    readtime: string;
+  };
+  setBlogData: React.Dispatch<
+    React.SetStateAction<{
+      title: string;
+      subtitle: string;
+      keywords: string;
+      readtime: string;
+    }>
+  >;
+  category: {
+    c1: string;
+    c2: string;
+    c3: string;
+  };
+  setCategory: React.Dispatch<
+    React.SetStateAction<{
+      c1: string;
+      c2: string;
+      c3: string;
+    }>
+  >;
+  thumbImg: string;
+  setThumbImg: React.Dispatch<React.SetStateAction<string>>;
+  data: string;
+  setData: React.Dispatch<React.SetStateAction<string>>;
+  submit: SubmitFunction;
 };
 
-export default function Author_View() {
-  const [data, setData] = useState<string>("");
+export default function Blog_Form_box({
+  blogData,
+  category,
+  data,
+  setBlogData,
+  setCategory,
+  setData,
+  setThumbImg,
+  submit,
+  thumbImg,
+}: BlogFormData) {
   return (
-    <div className="text-4xl text-green-600">
-      <h1>Author page</h1>
-      {/* <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
-      <h1 className="text-3xl font-bold">Blog Creation</h1>
-      <hr />
+    <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
       <div className="space-y-3">
         <Label htmlFor="title_blog" className="text-lg font-bold capitalize  ">
           Title for your blog
@@ -109,7 +151,9 @@ export default function Author_View() {
       <div className="space-y-3">
         <h5 className="font-mono text-lg font-bold">Add Blog Content</h5>
         <ClientOnly fallback={<p>Loading....</p>}>
-          {() => <EditorBlockNote setData={setData}></EditorBlockNote>}
+          {() => (
+            <EditorBlockNote data={data} setData={setData}></EditorBlockNote>
+          )}
         </ClientOnly>
       </div>
       <hr />
@@ -162,9 +206,8 @@ export default function Author_View() {
             Submit as Draft
           </Button>
         </Form>
-        <Button onClick={handleClick}>Discard Post</Button>
+        <Button onClick={() => console.log("Hello")}>Discard Post</Button>
       </div>
-    </div> */}
     </div>
   );
 }

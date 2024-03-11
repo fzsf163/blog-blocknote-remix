@@ -109,7 +109,7 @@ export default function Admin_Layout() {
           </ol>
         </div> */}
 
-        <ScrollArea className="w-[60%]   h-[100dvh] mx-auto ">
+        <ScrollArea className="mx-auto  h-[100dvh] w-[60%] ">
           <Outlet></Outlet>
         </ScrollArea>
       </div>

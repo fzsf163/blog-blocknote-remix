@@ -2,7 +2,7 @@ import { BlockNoteEditor } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
 import { useFetcher } from "@remix-run/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Data = {
   data?: string;
@@ -41,11 +41,11 @@ export default function EditorBlockNote({ setData, data }: Data) {
     console.log("🚀 ~ handleImageUplaod ~ url:", url.file.url);
     return url.file.url;
   };
-  let intContent;
+  let intContent: any;
   if (data) {
     intContent = JSON.parse(data);
-    console.log("🚀 ~ EditorBlockNote ~ intContent:", intContent);
   }
+ 
   // Creates a new editor instance.
   const editor: BlockNoteEditor = useBlockNote({
     initialContent: intContent || undefined,
