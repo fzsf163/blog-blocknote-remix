@@ -47,10 +47,25 @@ export function DropdownMenuCheckboxesCategory({ values, setValues }: Values) {
     }
   }, [showPanel]);
 
+  React.useEffect(() => {
+    if (values.c1 !== "") {
+      setShowStatusBar(true);
+    }
+    if (values.c2 !== "") {
+      setShowActivityBar(true);
+    }
+    if (values.c3 !== "") {
+      setShowPanel(true);
+    }
+  }, []);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-[10rem] text-black text-lg font-mono font-bold">
+        <Button
+          variant="outline"
+          className="w-[10rem] font-mono text-lg font-bold text-black"
+        >
           Select
         </Button>
       </DropdownMenuTrigger>

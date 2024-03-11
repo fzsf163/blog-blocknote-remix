@@ -135,6 +135,7 @@ export default function Blog_Form_box({
         <ClientOnly fallback={<div>Loading....</div>}>
           {() => <MyDropzone setThumbImg={setThumbImg}></MyDropzone>}
         </ClientOnly>
+        {thumbImg === undefined ? <p className="font-bold italic">No Image found</p> : null}
         {thumbImg && (
           <div className="relative">
             <Button
@@ -144,6 +145,7 @@ export default function Blog_Form_box({
             >
               X
             </Button>
+            
             <img src={thumbImg} className="mt-3 size-9/12 rounded"></img>
           </div>
         )}

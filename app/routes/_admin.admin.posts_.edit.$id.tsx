@@ -39,12 +39,13 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
   const submit = useSubmit();
-  console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", post);
+  //@ts-ignore
+  console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", post?.thumbanail);
   // let p: string | undefined;
 
   const [data, setData] = useState<string>("");
-  console.log("🚀 ~ Admin_Posts_Edit_One ~ data:", data)
   const [thumbImg, setThumbImg] = useState<string>("");
+  console.log("🚀 ~ Admin_Posts_Edit_One ~ thumbImg:", thumbImg);
 
   const [category, setCategory] = useState({
     c1: "",
@@ -59,14 +60,28 @@ export default function Admin_Posts_Edit_One() {
     readtime: "",
   });
 
-
   if (data === "") {
     if (typeof post === "object") {
       //@ts-ignore
       setData(post?.content);
+      //@ts-ignore
+      let c = JSON.parse(post?.category);
+      console.log("🚀 ~ Admin_Posts_Edit_One ~ c:", c);
+      setCategory({ c1: c?.c1, c2: c?.c2, c3: c?.c3 });
+      setBlogData({
+        //@ts-ignore
+        title: post?.title,
+        //@ts-ignore
+        keywords: post?.keywords,
+        //@ts-ignore
+        readtime: post?.readTime,
+        //@ts-ignore
+        subtitle: post?.subTitle,
+      });
+      //@ts-ignore
+      setThumbImg(post?.thumbanail);
     }
   }
-
 
   return (
     <div className="">
