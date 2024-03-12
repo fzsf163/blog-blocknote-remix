@@ -1,6 +1,13 @@
+import type { ActionFunctionArgs } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
-import { MetaFunction, useLoaderData, useSubmit } from "@remix-run/react";
+import {
+  MetaFunction,
+  json,
+  useActionData,
+  useLoaderData,
+  useSubmit,
+} from "@remix-run/react";
 import { SetStateAction, useEffect, useState } from "react";
 import { ClientOnly } from "remix-utils/client-only";
 import EditorBlockNote from "~/components/blockNote.client";
@@ -36,17 +43,73 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   return { post: "None Found" };
 };
 
+type PATCH_POST = {
+  category: { c1: string; c2: string; c3: string };
+  blogData: {
+    title: string;
+    keywords: string;
+    readtime: string;
+    subtitle: string;
+  };
+  data: string;
+  published: boolean;
+  thumbImg: string;
+};
+
+export const action = async ({ request, params }: ActionFunctionArgs) => {
+  const id_of_post = params?.id;
+  const x = await request.json();
+  console.log("🚀 ~ action ~ x:", x);
+  const { category, blogData, data, published, thumbImg }: PATCH_POST = x;
+  let cat = JSON.stringify(category);
+  switch (request.method) {
+    case "POST": {
+      return new Response("post does not work here");
+    }
+    case "PATCH": {
+      try {
+        await db.post.update({
+          data: {
+            title: blogData?.title,
+            subTitle: blogData?.subtitle,
+            readTime: blogData?.readtime,
+            keywords: blogData?.keywords,
+            category: cat,
+            published: published,
+            content: data,
+            thumbanail: thumbImg,
+          },
+          where: {
+            id: id_of_post,
+          },
+        });
+        // return json({ successful: "YES" });
+      } catch (error) {
+        return error;
+      }
+      return json({ successful: "YES" });
+    }
+    case "PUT": {
+      return new Response("Put does not work in this route");
+    }
+    case "DELETE": {
+      return new Response("DELETE does not work in this route");
+    }
+  }
+};
+
 export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
+  // const actionData = useActionData<typeof action>();
+  // console.log("🚀 ~ Admin_Posts_Edit_One ~ actionData:", actionData);
   const submit = useSubmit();
   //@ts-ignore
   console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", post?.thumbanail);
-  // let p: string | undefined;
 
   const [data, setData] = useState<string>("");
   const [thumbImg, setThumbImg] = useState<string>("");
-  console.log("🚀 ~ Admin_Posts_Edit_One ~ thumbImg:", thumbImg);
-
+  //@ts-ignore
+  const thumb = post?.thumbanail;
   const [category, setCategory] = useState({
     c1: "",
     c2: "",
@@ -66,7 +129,6 @@ export default function Admin_Posts_Edit_One() {
       setData(post?.content);
       //@ts-ignore
       let c = JSON.parse(post?.category);
-      console.log("🚀 ~ Admin_Posts_Edit_One ~ c:", c);
       setCategory({ c1: c?.c1, c2: c?.c2, c3: c?.c3 });
       setBlogData({
         //@ts-ignore
@@ -96,7 +158,8 @@ export default function Admin_Posts_Edit_One() {
         setData={setData}
         setThumbImg={setThumbImg}
         submit={submit}
-        thumbImg={thumbImg}
+        thumbImg={thumbImg === undefined ? thumb : thumbImg}
+        method="PATCH"
       ></Blog_Form_box>
     </div>
   );

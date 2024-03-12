@@ -9,7 +9,6 @@ import EditorBlockNote from "~/components/blockNote.client";
 import { DropdownMenuCheckboxesCategory } from "~/components/categoryCheckbox";
 import { Button } from "~/components/ui/button";
 import { Textarea } from "~/components/ui/textarea";
-import { db } from "~/utils/db.server";
 
 type BlogFormData = {
   blogData: {
@@ -43,6 +42,7 @@ type BlogFormData = {
   data: string;
   setData: React.Dispatch<React.SetStateAction<string>>;
   submit: SubmitFunction;
+  method: string | undefined;
 };
 
 export default function Blog_Form_box({
@@ -55,7 +55,9 @@ export default function Blog_Form_box({
   setThumbImg,
   submit,
   thumbImg,
+  method,
 }: BlogFormData) {
+  console.log(thumbImg);
   return (
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
       <div className="space-y-3">
@@ -135,7 +137,9 @@ export default function Blog_Form_box({
         <ClientOnly fallback={<div>Loading....</div>}>
           {() => <MyDropzone setThumbImg={setThumbImg}></MyDropzone>}
         </ClientOnly>
-        {thumbImg === undefined ? <p className="font-bold italic">No Image found</p> : null}
+        {thumbImg === undefined ? (
+          <p className="font-bold italic">No Image found</p>
+        ) : null}
         {thumbImg && (
           <div className="relative">
             <Button
@@ -145,7 +149,7 @@ export default function Blog_Form_box({
             >
               X
             </Button>
-            
+
             <img src={thumbImg} className="mt-3 size-9/12 rounded"></img>
           </div>
         )}
@@ -176,12 +180,12 @@ export default function Blog_Form_box({
                   encType: "application/json",
                   navigate: false,
                   preventScrollReset: true,
-                  method: "POST",
+                  method: method === "POST" ? "POST" : "PATCH",
                 },
               )
             }
           >
-            Submit & Publish
+            {method === "POST" ? "Submit & Publish" : "UPDATE & PUBLISH"}
           </Button>
         </Form>
         <Form>
@@ -200,12 +204,12 @@ export default function Blog_Form_box({
                   encType: "application/json",
                   navigate: false,
                   preventScrollReset: true,
-                  method: "POST",
+                  method: method === "POST" ? "POST" : "PATCH",
                 },
               )
             }
           >
-            Submit as Draft
+            {method === "POST" ? "Submit as Draft" : "Update Draft "}
           </Button>
         </Form>
         <Button onClick={() => console.log("Hello")}>Discard Post</Button>

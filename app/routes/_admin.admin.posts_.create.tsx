@@ -66,29 +66,43 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   let cat = JSON.stringify(category);
   const session = await getSession(request.headers.get("Cookie"));
   const user = session.data?.sessionKey?.userID;
-  if (k) {
-    console.log(k);
-    try {
-      await db.post.create({
-        data: {
-          title: blogData.title,
-          subTitle: blogData.subtitle,
-          keywords: blogData.keywords,
-          readTime: blogData.readtime,
-          category: cat,
-          thumbanail: thumbImg,
-          authorId: user,
-          content: data,
-          published: published,
-        },
-      });
-    } catch {
-      (error: any) => {
-        throw new Response(error);
-      };
+  switch (request.method) {
+    case "POST": {
+      if (k) {
+        console.log(k);
+        try {
+          await db.post.create({
+            data: {
+              title: blogData.title,
+              subTitle: blogData.subtitle,
+              keywords: blogData.keywords,
+              readTime: blogData.readtime,
+              category: cat,
+              thumbanail: thumbImg,
+              authorId: user,
+              content: data,
+              published: published,
+            },
+          });
+        } catch {
+          (error: any) => {
+            throw new Response(error);
+          };
+        }
+        return json({ data_Submission: "successful" });
+      }
     }
-    return json({ data_Submission: "successful" });
+    case "PATCH": {
+      return new Response("Patch does not work in this route");
+    }
+    case "PUT": {
+      return new Response("Put does not work in this route");
+    }
+    case "DELETE": {
+      return new Response("DELETE does not work in this route");
+    }
   }
+
   return { successful: "nah mate" };
 };
 
@@ -132,6 +146,7 @@ export default function Admin_Posts_Create() {
         setThumbImg={setThumbImg}
         submit={submit}
         thumbImg={thumbImg}
+        method="POST"
       ></Blog_Form_box>
     </div>
   );
