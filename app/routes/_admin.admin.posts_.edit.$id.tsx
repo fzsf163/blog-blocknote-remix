@@ -31,7 +31,6 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   //   failureRedirect: "/admin",
   // });
   let id = params?.id;
-  console.log("🚀 ~ loader ~ id:", id);
   try {
     let post = await db.post.findUnique({
       where: {
@@ -83,11 +82,10 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
             id: id_of_post,
           },
         });
-        // return json({ successful: "YES" });
+        return json({ successful: "YES" });
       } catch (error) {
         return error;
       }
-      return json({ successful: "YES" });
     }
     case "PUT": {
       return new Response("Put does not work in this route");
@@ -100,11 +98,14 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 
 export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
-  // const actionData = useActionData<typeof action>();
-  // console.log("🚀 ~ Admin_Posts_Edit_One ~ actionData:", actionData);
+  const actionData = useActionData<typeof action>();
+  useEffect(() => {
+    console.log("🚀 ~ from useeffect single id  ~ actionData:", actionData);
+  }, [actionData]);
   const submit = useSubmit();
+
   //@ts-ignore
-  console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", post?.thumbanail);
+  // console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", post?.thumbanail);
 
   const [data, setData] = useState<string>("");
   const [thumbImg, setThumbImg] = useState<string>("");
@@ -146,7 +147,7 @@ export default function Admin_Posts_Edit_One() {
   }
 
   return (
-    <div className="">
+    <div className="  h-[100dvh] w-[1250px] ">
       <h1 className="mb-2 font-mono text-2xl"> Edit a Post</h1>
       <hr />
       <Blog_Form_box

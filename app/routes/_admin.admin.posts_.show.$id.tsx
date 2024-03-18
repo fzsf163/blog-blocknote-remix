@@ -21,8 +21,8 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
 export default function Admin_Posts_Show_One() {
   const { id } = useLoaderData<typeof loader>();
   return (
-    <div className="text-4xl text-green-200">
-      <h1>Admin Show {id} page</h1>
+    <div className="h-[100dvh] w-[1500px]">
+      <h1> Show Post with {id} page</h1>
     </div>
   );
 }

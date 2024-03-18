@@ -12,6 +12,7 @@ import { authenticator } from "~/utils/auth.server";
 import { db } from "~/utils/db.server";
 import { requireUserSession } from "~/utils/session.server";
 import { BlogSereverDataModel } from "./_admin.admin.posts_.create";
+import { useEffect } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -29,7 +30,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   //   failureRedirect: "/admin",
   // });
 
-  let data = await db.post.findMany({ include: { author: {} } });
+  let data = await db.post.findMany({
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+  });
   if (data) {
     return json({ data });
   }
@@ -37,6 +46,8 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
+  let success = { Working: "OK" };
+  let deleteSuccess;
   switch (request.method) {
     case "POST": {
       return json({ method: "Post" });
@@ -49,26 +60,31 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
     case "DELETE": {
       let d = await request.json();
-      console.log("🚀 ~ action ~ d:", d);
       try {
         let b = await db.post.delete({
           where: {
             id: d?.id,
           },
         });
-        return b;
+        deleteSuccess = true;
       } catch (error) {
         (e: any) => {
           return { e };
         };
       }
+      break;
     }
   }
+  return deleteSuccess ? deleteSuccess : success;
 };
 
 export default function Admin_Posts() {
   const userLoaderData = useLoaderData<typeof loader>();
-  // const userActionData = useActionData<typeof action>();
+  console.log("🚀 ~ Admin_Posts ~ userLoaderData:", userLoaderData)
+  const userActionData = useActionData<typeof action>();
+
+  console.log("🚀 ~ Admin_Posts ~ userActionData:", userActionData);
+
 
   const blogsFromdb = userLoaderData.data;
   // console.log("🚀 ~ Admin_Posts ~ userLoaderData:", blogsFromdb);
@@ -90,7 +106,7 @@ export default function Admin_Posts() {
   // console.log("🚀 ~ Admin_Posts ~ blgs:", blogs);
 
   return (
-    <div className=" ">
+    <div className="w-[1400px]">
       <DataTable columns={columns} data={blogs}></DataTable>
     </div>
   );

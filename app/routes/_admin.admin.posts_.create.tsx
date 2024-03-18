@@ -6,12 +6,11 @@ import {
   useNavigate,
   useSubmit,
 } from "@remix-run/react";
-import MyDropzone from "~/components/dragNdrop.client";
+
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { ClientOnly } from "remix-utils/client-only";
 import { json } from "@remix-run/node";
-import EditorBlockNote from "~/components/blockNote.client";
 import { useState } from "react";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { getSession, requireUserSession } from "~/utils/session.server";
@@ -66,10 +65,10 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   let cat = JSON.stringify(category);
   const session = await getSession(request.headers.get("Cookie"));
   const user = session.data?.sessionKey?.userID;
+
   switch (request.method) {
     case "POST": {
       if (k) {
-        console.log(k);
         try {
           await db.post.create({
             data: {
@@ -78,7 +77,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
               keywords: blogData.keywords,
               readTime: blogData.readtime,
               category: cat,
-              thumbanail: thumbImg,
+              thumbnail: thumbImg,
               authorId: user,
               content: data,
               published: published,
@@ -89,7 +88,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             throw new Response(error);
           };
         }
-        return json({ data_Submission: "successful" });
+        return json({ data: { data_Submission: "successful" } });
       }
     }
     case "PATCH": {
@@ -102,13 +101,11 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       return new Response("DELETE does not work in this route");
     }
   }
-
-  return { successful: "nah mate" };
 };
 
 export default function Admin_Posts_Create() {
-  const userActionData = useActionData<typeof action>();
-  console.log("🚀 ~ Admin_Posts_Create ~ userActionData:", userActionData);
+  const actionData = useActionData<typeof action>();
+  console.log("🚀 ~ Admin_Posts_Create ~ userActionData:", actionData);
   const submit = useSubmit();
   const navigate = useNavigate();
   const [data, setData] = useState<string>("");
@@ -135,7 +132,9 @@ export default function Admin_Posts_Create() {
   // console.log("🚀 ~ Admin_Posts_Create ~ values:", values);
 
   return (
-    <div>
+    <div className="  h-[100dvh] w-[1250px]  ">
+      <h1 className="mb-2 font-mono text-2xl"> Make a Post</h1>
+      <hr />
       <Blog_Form_box
         blogData={blogData}
         category={category}

@@ -29,7 +29,6 @@ type HandleType = {
 const admin_routes = [
   { label: "Dashboard", href: "/admin/dashboard" },
   { label: "Posts", href: "/admin/posts" },
-  { label: "Comments", href: "/admin/comments" },
   { label: "Profile", href: "/admin/profile" },
   { label: "Action Center", href: "/admin/actioncenter" },
 ];
@@ -109,7 +108,7 @@ export default function Admin_Layout() {
           </ol>
         </div> */}
 
-        <ScrollArea className="mx-auto  h-[100dvh] w-[60%] ">
+        <ScrollArea className="mx-auto">
           <Outlet></Outlet>
         </ScrollArea>
       </div>

@@ -4,6 +4,7 @@ import { Form, Link, MetaFunction, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { authenticator } from "~/utils/auth.server";
 import { db } from "~/utils/db.server";
+import { Power } from "lucide-react";
 import {
   destroySession,
   getSession,
@@ -37,11 +38,16 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   //   request.headers.get("Cookie"),
   // );
   const user = session.data?.sessionKey?.userID;
-  console.log("🚀 ~ loader ~ user:", user);
 
   const u = await db.user.findUnique({
     where: {
       id: user,
+    },
+    select: {
+      email: true,
+      name: true,
+      posts: true,
+      bio: true,
     },
   });
   return u;
@@ -54,11 +60,23 @@ export default function Admin_Posts() {
   const u = useLoaderData<typeof loader>();
   console.log("🚀 ~ Admin_Posts ~ u:", u);
   return (
-    <div className="text-4xl text-green-200">
-      <h1>Admin Dashborad page , Welcome {u?.name}</h1>
-      <Form method="POST">
-        <Button type="submit">Logout</Button>
-      </Form>
+    <div className="w-[1500px] px-2 py-3">
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl">Admin Dashborad page , Welcome {u?.name}</h1>
+        {/* <h4 className="font-mono text-lg font-semibold">
+          To logout click here
+        </h4> */}
+        <Form method="POST">
+          <Button
+            size={"icon"}
+            type="submit"
+            className="font-bold hover:bg-red-400 "
+          >
+            <Power></Power>
+          </Button>
+        </Form>
+      </div>
+      {/* charts begin  here */}
     </div>
   );
 }

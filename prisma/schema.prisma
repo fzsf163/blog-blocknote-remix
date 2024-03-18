@@ -21,7 +21,7 @@ model Post {
   readTime   String
   keywords   String
   category   String
-  thumbanail String
+  thumbnail String
   readCount  Int      @default(0)
   author     User     @relation(fields: [authorId], references: [id])
   authorId   String

@@ -38,7 +38,6 @@ export default function EditorBlockNote({ setData, data }: Data) {
     url = await f.then((data) => {
       return data;
     });
-    console.log("🚀 ~ handleImageUplaod ~ url:", url.file.url);
     return url.file.url;
   };
   let intContent: any;
