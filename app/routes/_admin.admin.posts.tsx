@@ -12,7 +12,7 @@ import { authenticator } from "~/utils/auth.server";
 import { db } from "~/utils/db.server";
 import { requireUserSession } from "~/utils/session.server";
 import { BlogSereverDataModel } from "./_admin.admin.posts_.create";
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -46,8 +46,6 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 };
 
 export const action = async ({ request }: ActionFunctionArgs) => {
-  let success = { Working: "OK" };
-  let deleteSuccess;
   switch (request.method) {
     case "POST": {
       return json({ method: "Post" });
@@ -61,12 +59,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     case "DELETE": {
       let d = await request.json();
       try {
-        let b = await db.post.delete({
+        await db.post.delete({
           where: {
             id: d?.id,
           },
         });
-        deleteSuccess = true;
+        return json({ Delete: "Successful" });
       } catch (error) {
         (e: any) => {
           return { e };
@@ -75,16 +73,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
       break;
     }
   }
-  return deleteSuccess ? deleteSuccess : success;
 };
 
 export default function Admin_Posts() {
   const userLoaderData = useLoaderData<typeof loader>();
-  console.log("🚀 ~ Admin_Posts ~ userLoaderData:", userLoaderData)
   const userActionData = useActionData<typeof action>();
 
   console.log("🚀 ~ Admin_Posts ~ userActionData:", userActionData);
-
 
   const blogsFromdb = userLoaderData.data;
   // console.log("🚀 ~ Admin_Posts ~ userLoaderData:", blogsFromdb);

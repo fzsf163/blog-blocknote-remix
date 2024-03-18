@@ -83,12 +83,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
               published: published,
             },
           });
+          return json({ data: { data_Submission: "successful" } });
         } catch {
           (error: any) => {
             throw new Response(error);
           };
         }
-        return json({ data: { data_Submission: "successful" } });
       }
     }
     case "PATCH": {

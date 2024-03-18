@@ -76,7 +76,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
             category: cat,
             published: published,
             content: data,
-            thumbanail: thumbImg,
+            thumbnail: thumbImg,
           },
           where: {
             id: id_of_post,
@@ -99,9 +99,8 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  useEffect(() => {
-    console.log("🚀 ~ from useeffect single id  ~ actionData:", actionData);
-  }, [actionData]);
+  console.log("🚀 ~ from useeffect single id  ~ actionData:", actionData);
+
   const submit = useSubmit();
 
   //@ts-ignore

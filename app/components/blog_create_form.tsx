@@ -179,7 +179,8 @@ export default function Blog_Form_box({
                   encType: "application/json",
                   navigate: false,
                   preventScrollReset: true,
-                  method: method === "POST" ? "POST" : "PATCH",
+                  method: "POST",
+                  // action: actionRoute,
                 },
               )
             }
@@ -203,7 +204,8 @@ export default function Blog_Form_box({
                   encType: "application/json",
                   navigate: false,
                   preventScrollReset: true,
-                  method: method === "POST" ? "POST" : "PATCH",
+                  method: "PATCH",
+                  // action: actionRoute,
                 },
               )
             }

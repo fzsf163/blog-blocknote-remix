@@ -8,7 +8,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   // await authenticator.isAuthenticated(request, {
   //   failureRedirect: "/admin",
   // });
-  return "ok";
+  return { userActionCenter: "ok" };
 };
 export default function Action_Center() {
   return <div>This is Action Center</div>;
