@@ -99,7 +99,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
 export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
-  console.log("🚀 ~ from useeffect single id  ~ actionData:", actionData);
+  // console.log("🚀 ~ from useeffect single id  ~ actionData:", actionData);
 
   const submit = useSubmit();
 
@@ -109,7 +109,7 @@ export default function Admin_Posts_Edit_One() {
   const [data, setData] = useState<string>("");
   const [thumbImg, setThumbImg] = useState<string>("");
   //@ts-ignore
-  const thumb = post?.thumbanail;
+  const thumb = post?.thumbnail;
   const [category, setCategory] = useState({
     c1: "",
     c2: "",
@@ -141,10 +141,14 @@ export default function Admin_Posts_Edit_One() {
         subtitle: post?.subTitle,
       });
       //@ts-ignore
-      setThumbImg(post?.thumbanail);
+      setThumbImg(post?.thumbnail);
     }
   }
 
+  console.log(thumbImg);
+  console.log("thumb", thumb);
+  //@ts-ignore
+  console.log("post", post?.thumbnail);
   return (
     <div className="  h-[100dvh] w-[1250px] ">
       <h1 className="mb-2 font-mono text-2xl"> Edit a Post</h1>
