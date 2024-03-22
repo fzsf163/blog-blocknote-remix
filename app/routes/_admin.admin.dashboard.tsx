@@ -26,6 +26,7 @@ import {
   YAxis,
 } from "recharts";
 import { ClientOnly } from "remix-utils/client-only";
+import Stat_Box from "~/components/statBox";
 export const meta: MetaFunction = () => {
   return [
     { title: "admin/posts page" },
@@ -67,9 +68,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return u;
 };
 
-export async function action({ request }: ActionFunctionArgs) {
-  await authenticator.logout(request, { redirectTo: "/admin" });
-}
+// export async function action({ request }: ActionFunctionArgs) {
+//   await authenticator.logout(request, { redirectTo: "/admin" });
+// }
 //  crazy fucntions incoming
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
@@ -129,31 +130,38 @@ export default function Admin_Posts() {
   ];
   return (
     <div className="w-[1500px] px-2 py-3">
-      <div className="flex items-center justify-between">
-        <h1 className="text-4xl font-bold capitalize">
-          Admin Dashborad page , Welcome{" "}
+      <div className="flex items-center justify-between m-5">
+        <h1 className="text-xl font-bold capitalize">
+          Welcome to Dashborad ,
           <span className="bg-gradient-to-r from-green-900 via-yellow-900 to-fuchsia-900 bg-clip-text text-transparent">
             {" "}
             {u?.name}
           </span>
         </h1>
-        {/* <h4 className="font-mono text-lg font-semibold">
-          To logout click here
-        </h4> */}
-        <Form method="POST">
+        {/* <Form method="POST">
           <Button
             size={"icon"}
             type="submit"
-            className="font-bold hover:bg-red-400 "
+            className="font-bold hover:bg-blue-400 hover:text-black"
           >
             <Power></Power>
           </Button>
-        </Form>
+        </Form> */}
+      </div>
+      {/* card boxes for stat */}
+      <div className="flex items-start justify-start gap-4 p-2">
+        <Stat_Box count={1000} emoji="💖" title_text="Subscribers"></Stat_Box>
+        <Stat_Box count={3000} emoji="😘" title_text="Readers"></Stat_Box>
+        <Stat_Box count={4000} emoji="🌸" title_text="Blogs"></Stat_Box>
+        <Stat_Box count={10300} emoji="🥲" title_text="Pages"></Stat_Box>
+        <Stat_Box count={123300} emoji="📖" title_text="Comments"></Stat_Box>
+        <Stat_Box count={100} emoji="🎃" title_text="Categories"></Stat_Box>
+        <Stat_Box count={500} emoji="🔑" title_text="Keywords"></Stat_Box>
       </div>
       {/* charts begin  here */}
       <ClientOnly>
         {() => (
-          <div className="flex items-center justify-center mt-10">
+          <div className="mt-10 flex items-center justify-center">
             {/* pie chart */}
             <ResponsiveContainer>
               <div className="w-fit">

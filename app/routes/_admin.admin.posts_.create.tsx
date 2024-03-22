@@ -133,7 +133,7 @@ export default function Admin_Posts_Create() {
 
   return (
     <div className="  h-[100dvh] w-[1250px]  ">
-      <h1 className="mb-2 font-mono text-2xl"> Make a Post</h1>
+      <h1 className="mb-2 font-mono text-2xl text-white/90 font-bold"> Make a Post</h1>
       <hr />
       <Blog_Form_box
         blogData={blogData}

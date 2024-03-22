@@ -72,7 +72,7 @@ export default function EditorBlockNote({ setData, data }: Data) {
   // Renders the editor instance using a React component.
   return (
     <div>
-      <BlockNoteView editor={editor}></BlockNoteView>
+      <BlockNoteView editor={editor} theme={"light"}></BlockNoteView>
       {/* <pre>{html}</pre> */}
       {/* <div className="prose lg:prose-xl" dangerouslySetInnerHTML={theObj} /> */}
     </div>

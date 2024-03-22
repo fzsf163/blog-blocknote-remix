@@ -149,7 +149,7 @@ export default function Blog_Form_box({
               X
             </Button>
 
-            <img src={thumbImg} className="mt-3 size-9/12 rounded"></img>
+            <img src={thumbImg} className="mt-3 size-7/12 rounded"></img>
           </div>
         )}
       </div>

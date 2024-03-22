@@ -1,5 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, LinksFunction } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -18,10 +18,14 @@ import stylesheet from "~/tailwind.css";
 import Nav from "./components/Nav";
 import { Button } from "./components/ui/button";
 import { match } from "assert";
+import { authenticator } from "./utils/auth.server";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
 ];
+export async function action({ request }: ActionFunctionArgs) {
+  await authenticator.logout(request, { redirectTo: "/admin" });
+}
 
 export function ErrorBoundary() {
   const error = useRouteError();

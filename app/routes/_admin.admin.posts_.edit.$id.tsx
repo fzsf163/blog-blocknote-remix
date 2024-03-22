@@ -151,7 +151,10 @@ export default function Admin_Posts_Edit_One() {
   console.log("post", post?.thumbnail);
   return (
     <div className="  h-[100dvh] w-[1250px] ">
-      <h1 className="mb-2 font-mono text-2xl"> Edit a Post</h1>
+      <h1 className="mb-2 font-mono text-2xl font-bold text-white/90">
+        {" "}
+        Edit a Post
+      </h1>
       <hr />
       <Blog_Form_box
         blogData={blogData}
