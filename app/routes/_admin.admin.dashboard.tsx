@@ -24,9 +24,15 @@ import {
   XAxis,
   CartesianGrid,
   YAxis,
+  AreaChart,
+  Area,
 } from "recharts";
 import { ClientOnly } from "remix-utils/client-only";
 import Stat_Box from "~/components/statBox";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { useState } from "react";
+import Blog_Card from "~/components/blogcard";
+
 export const meta: MetaFunction = () => {
   return [
     { title: "admin/posts page" },
@@ -110,6 +116,7 @@ const renderCustomizedLabel = ({
 };
 export default function Admin_Posts() {
   const u = useLoaderData<typeof loader>();
+  const [parent] = useAutoAnimate(/* optional config */);
   let data = [
     { name: "Total Readers", value: 23, fill: "#57c0E6" },
     { name: "Total Read Counts", value: 40, fill: "#FF6565" },
@@ -117,20 +124,20 @@ export default function Admin_Posts() {
     { name: "Total Stay Time(in mintues)", value: 400, fill: "purple" },
   ];
   let blogView = [
-    { name: "Blog1", views: 72 },
-    { name: "Blog2", views: 27 },
-    { name: "Blog3", views: 88 },
-    { name: "Blog4", views: 23 },
-    { name: "Blog6", views: 35 },
-    { name: "Blog7", views: 18 },
-    { name: "Blog8", views: 58 },
-    { name: "Blog9", views: 81 },
-    { name: "Blog10", views: 34 },
-    { name: "Blog11", views: 37 },
+    { name: "Blog2", views: 27, comments: 505 },
+    { name: "Blog1", views: 72, comments: 214 },
+    { name: "Blog3", views: 88, comments: 565 },
+    { name: "Blog4", views: 23, comments: 843 },
+    { name: "Blog6", views: 35, comments: 873 },
+    { name: "Blog7", views: 18, comments: 143 },
+    { name: "Blog8", views: 58, comments: 914 },
+    { name: "Blog9", views: 81, comments: 317 },
+    { name: "Blog10", views: 34, comments: 193 },
+    { name: "Blog11", views: 37, comments: 291 },
   ];
   return (
     <div className="w-[1500px] px-2 py-3">
-      <div className="flex items-center justify-between m-5">
+      <div className="m-5 flex items-center justify-between">
         <h1 className="text-xl font-bold capitalize">
           Welcome to Dashborad ,
           <span className="bg-gradient-to-r from-green-900 via-yellow-900 to-fuchsia-900 bg-clip-text text-transparent">
@@ -149,120 +156,107 @@ export default function Admin_Posts() {
         </Form> */}
       </div>
       {/* card boxes for stat */}
-      <div className="flex items-start justify-start gap-4 p-2">
-        <Stat_Box count={1000} emoji="💖" title_text="Subscribers"></Stat_Box>
-        <Stat_Box count={3000} emoji="😘" title_text="Readers"></Stat_Box>
-        <Stat_Box count={4000} emoji="🌸" title_text="Blogs"></Stat_Box>
-        <Stat_Box count={10300} emoji="🥲" title_text="Pages"></Stat_Box>
-        <Stat_Box count={123300} emoji="📖" title_text="Comments"></Stat_Box>
-        <Stat_Box count={100} emoji="🎃" title_text="Categories"></Stat_Box>
-        <Stat_Box count={500} emoji="🔑" title_text="Keywords"></Stat_Box>
+      <div
+        ref={parent}
+        className="flex flex-wrap items-start justify-start gap-4 p-2"
+      >
+        <Stat_Box
+          key={"subss"}
+          count={1000}
+          emoji="💖"
+          title_text="Subscribers"
+        ></Stat_Box>
+        <Stat_Box
+          key={"readeerrs"}
+          count={3000}
+          emoji="😘"
+          title_text="Readers"
+        ></Stat_Box>
+        <Stat_Box
+          key={"blogsss"}
+          count={4000}
+          emoji="🌸"
+          title_text="Blogs"
+        ></Stat_Box>
+        <Stat_Box
+          key={"pageeeess"}
+          count={10300}
+          emoji="🥲"
+          title_text="Pages"
+        ></Stat_Box>
+        <Stat_Box
+          key={"comeeenasnashj"}
+          count={123300}
+          emoji="📖"
+          title_text="Comments"
+        ></Stat_Box>
+        <Stat_Box
+          key={"carageggeeg"}
+          count={100}
+          emoji="🎃"
+          title_text="Categories"
+        ></Stat_Box>
+        <Stat_Box
+          key={"keyeiwowods"}
+          count={500}
+          emoji="🔑"
+          title_text="Keywords"
+        ></Stat_Box>
       </div>
+      <br />
+      <br />
       {/* charts begin  here */}
-      <ClientOnly>
-        {() => (
-          <div className="mt-10 flex items-center justify-center">
-            {/* pie chart */}
-            <ResponsiveContainer>
-              <div className="w-fit">
-                <PieChart width={730} height={550}>
-                  <Pie
-                    data={data}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={150}
-                    fill="#00000"
-                    label={renderCustomizedLabel}
-                    legendType="circle"
-                    blendStroke
-                    cursor={"pointer"}
-                    paddingAngle={2}
-                  ></Pie>
-                  <Tooltip
-                    contentStyle={{
-                      background: "transparent",
-                      border: "none",
-                      fontFamily: "monospace",
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                    }}
-                    itemStyle={{
-                      color: "white",
-                      backgroundColor: "gray",
-                      borderRadius: "300px",
-                      padding: "10px 16px",
-                      fontFamily: "monospace",
-                      fontWeight: "bold",
-                    }}
-                    useTranslate3d
-                  ></Tooltip>
-                  <Legend
-                    iconSize={20}
-                    wrapperStyle={{
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                      textTransform: "capitalize",
-                    }}
-                    verticalAlign="top"
-                  ></Legend>
-                </PieChart>
-              </div>
-            </ResponsiveContainer>
-            <br />
-            {/* line chart */}
-            <ResponsiveContainer>
-              <div className="w-fit">
-                <LineChart
-                  width={730}
-                  height={550}
-                  data={blogView}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" className="font-semibold" />
-                  <YAxis />
-                  <Tooltip
-                    contentStyle={{
-                      background: "transparent",
-                      border: "none",
-                      color: "whitesmoke",
-                      fontFamily: "monospace",
-                      fontWeight: "bold",
-                      fontSize: "20px",
-                    }}
-                    itemStyle={{
-                      color: "white",
-                      backgroundColor: "gray",
-                      borderRadius: "300px",
-                      padding: "10px 20px",
-                      fontFamily: "monospace",
-                      fontWeight: "bold",
-                    }}
-                    useTranslate3d
-                  />
-                  <Legend
-                    iconSize={20}
-                    wrapperStyle={{
-                      fontSize: "20px",
-                      fontWeight: "bold",
-                      textTransform: "capitalize",
-                    }}
-                    verticalAlign="top"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="views"
-                    stroke="#82349d"
-                    strokeWidth={5}
-                  />
-                </LineChart>
-              </div>
-            </ResponsiveContainer>
+      <div className="flex items-center justify-evenly">
+        <ClientOnly>
+          {() => (
+            <AreaChart
+              width={730}
+              height={250}
+              data={blogView}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#9894e8" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <CartesianGrid strokeDasharray="3 3" />
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey="views"
+                stroke="#8884d8"
+                fillOpacity={1}
+                fill="url(#colorUv)"
+              />
+              <Area
+                type="monotone"
+                dataKey="comments"
+                stroke="#82ca9d"
+                fillOpacity={1}
+                fill="url(#colorPv)"
+              />
+            </AreaChart>
+          )}
+        </ClientOnly>
+        <div className="w-[600px] bg-black/5">
+          <div className="h-[60px]  bg-black/60">
+            <h1 className="p-2 font-mono text-3xl font-bold text-white">
+              Recent Blogs
+            </h1>
           </div>
-        )}
-      </ClientOnly>
+          <div className="mb-10 p-5">
+            <Blog_Card></Blog_Card>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

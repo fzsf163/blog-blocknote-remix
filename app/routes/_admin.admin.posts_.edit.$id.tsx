@@ -5,6 +5,7 @@ import {
   MetaFunction,
   json,
   useActionData,
+  useFetcher,
   useLoaderData,
   useSubmit,
 } from "@remix-run/react";
@@ -82,7 +83,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
             id: id_of_post,
           },
         });
-        return json({ successful: "YES" });
+        return json({ data_Submission: true });
       } catch (error) {
         return error;
       }
@@ -95,13 +96,13 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
     }
   }
 };
-
+type data_Submission = boolean;
+type error = any;
+type submission = data_Submission | error;
 export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
-  const actionData = useActionData<typeof action>();
-  // console.log("🚀 ~ from useeffect single id  ~ actionData:", actionData);
-
-  const submit = useSubmit();
+  const fetcher = useFetcher();
+  const d: submission = fetcher.data;
 
   //@ts-ignore
   // console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", post?.thumbanail);
@@ -145,10 +146,6 @@ export default function Admin_Posts_Edit_One() {
     }
   }
 
-  console.log(thumbImg);
-  console.log("thumb", thumb);
-  //@ts-ignore
-  console.log("post", post?.thumbnail);
   return (
     <div className="  h-[100dvh] w-[1250px] ">
       <h1 className="mb-2 font-mono text-2xl font-bold text-white/90">
@@ -164,9 +161,9 @@ export default function Admin_Posts_Edit_One() {
         setCategory={setCategory}
         setData={setData}
         setThumbImg={setThumbImg}
-        submit={submit}
         thumbImg={thumbImg === undefined ? thumb : thumbImg}
         method="PATCH"
+        fetcher={fetcher}
       ></Blog_Form_box>
     </div>
   );

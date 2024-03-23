@@ -1,24 +1,19 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
 import {
-  Form,
   MetaFunction,
   useActionData,
+  useFetcher,
   useNavigate,
   useSubmit,
 } from "@remix-run/react";
 
-import { Input } from "~/components/ui/input";
-import { Label } from "~/components/ui/label";
-import { ClientOnly } from "remix-utils/client-only";
 import { json } from "@remix-run/node";
 import { useState } from "react";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { getSession, requireUserSession } from "~/utils/session.server";
-import { DropdownMenuCheckboxesCategory } from "~/components/categoryCheckbox";
-import { Button } from "~/components/ui/button";
-import { Textarea } from "~/components/ui/textarea";
 import { db } from "~/utils/db.server";
 import Blog_Form_box from "~/components/blog_create_form";
+import { error } from "console";
 
 export const meta: MetaFunction = () => {
   return [
@@ -83,7 +78,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
               published: published,
             },
           });
-          return json({ data: { data_Submission: "successful" } });
+          return json({ data_Submission: true });
         } catch {
           (error: any) => {
             throw new Response(error);
@@ -102,11 +97,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   }
 };
-
+type data_Submission = boolean;
+type error = any;
+type submission = data_Submission | error;
 export default function Admin_Posts_Create() {
-  const actionData = useActionData<typeof action>();
-  console.log("🚀 ~ Admin_Posts_Create ~ userActionData:", actionData);
-  const submit = useSubmit();
+  const fetcher = useFetcher();
+  const d: submission = fetcher.data;
+
   const navigate = useNavigate();
   const [data, setData] = useState<string>("");
   const [thumbImg, setThumbImg] = useState<string>("");
@@ -133,7 +130,10 @@ export default function Admin_Posts_Create() {
 
   return (
     <div className="  h-[100dvh] w-[1250px]  ">
-      <h1 className="mb-2 font-mono text-2xl text-white/90 font-bold"> Make a Post</h1>
+      <h1 className="mb-2 font-mono text-2xl font-bold text-white/90">
+        {" "}
+        Make a Post
+      </h1>
       <hr />
       <Blog_Form_box
         blogData={blogData}
@@ -143,9 +143,9 @@ export default function Admin_Posts_Create() {
         setCategory={setCategory}
         setData={setData}
         setThumbImg={setThumbImg}
-        submit={submit}
         thumbImg={thumbImg}
         method="POST"
+        fetcher={fetcher}
       ></Blog_Form_box>
     </div>
   );

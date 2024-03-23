@@ -183,11 +183,12 @@ export const columns: ColumnDef<Blog_Posts>[] = [
     },
     cell: ({ row }) => {
       const date: string = row.getValue("published");
-      //   const formatted = new Intl.DateTimeFormat("en", {
-      //     dateStyle: "full",
-      //     timeStyle: "short",
-      //     // timeZone: "BST",
-      //   }).format(date);
+      console.log("🚀 ~ date:", date)
+      // const formatted = new Intl.DateTimeFormat("en", {
+      //   dateStyle: "full",
+      //   timeStyle: "short",
+      //   // timeZone: "BST",
+      // }).format(date);
 
       return <p>{date}</p>;
     },

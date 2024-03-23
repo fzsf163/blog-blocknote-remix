@@ -1,4 +1,9 @@
-import { Form, SubmitFunction } from "@remix-run/react";
+import {
+  FetcherWithComponents,
+  Form,
+  SubmitFunction,
+  useFetcher,
+} from "@remix-run/react";
 import MyDropzone from "~/components/dragNdrop.client";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -41,7 +46,7 @@ type BlogFormData = {
   setThumbImg: React.Dispatch<React.SetStateAction<string>>;
   data: string;
   setData: React.Dispatch<React.SetStateAction<string>>;
-  submit: SubmitFunction;
+  fetcher?: any;
   method: string | undefined;
 };
 
@@ -53,9 +58,9 @@ export default function Blog_Form_box({
   setCategory,
   setData,
   setThumbImg,
-  submit,
   thumbImg,
   method,
+  fetcher,
 }: BlogFormData) {
   return (
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
@@ -163,56 +168,49 @@ export default function Blog_Form_box({
       </div>
       <hr />
       <div className="flex items-start justify-end gap-5">
-        <Form navigate={false}>
-          <Button
-            disabled={data ? false : true}
-            onClick={() =>
-              submit(
-                {
-                  category: category,
-                  blogData,
-                  thumbImg,
-                  data,
-                  published: true,
-                },
-                {
-                  encType: "application/json",
-                  navigate: false,
-                  preventScrollReset: true,
-                  method: "POST",
-                  // action: actionRoute,
-                },
-              )
-            }
-          >
-            {method === "POST" ? "Submit & Publish" : "UPDATE & PUBLISH"}
-          </Button>
-        </Form>
-        <Form>
-          <Button
-            disabled={data ? false : true}
-            onClick={() =>
-              submit(
-                {
-                  category: category,
-                  blogData,
-                  thumbImg,
-                  data,
-                  published: false,
-                },
-                {
-                  encType: "application/json",
-                  navigate: false,
-                  preventScrollReset: true,
-                  method: "PATCH",
-                  // action: actionRoute,
-                },
-              )
-            }
-          >
-            {method === "POST" ? "Submit as Draft" : "Update Draft "}
-          </Button>
-        </Form>
+        <Button
+          disabled={data ? false : true}
+          onClick={() =>
+            fetcher.submit(
+              {
+                category: category,
+                blogData,
+                thumbImg,
+                data,
+                published: true,
+              },
+              {
+                method: method === "POST" ? "POST" : "PATCH",
+                encType: "application/json",
+              },
+            )
+          }
+        >
+          {method === "POST" ? "Submit & Publish" : "UPDATE & PUBLISH"}
+        </Button>
+
+        <Button
+          disabled={data ? false : true}
+          value={"UPDATE"}
+          onClick={() =>
+            fetcher.submit(
+              {
+                category: category,
+                blogData,
+                thumbImg,
+                data,
+                published: false,
+              },
+              {
+                method: method === "POST" ? "POST" : "PATCH",
+                encType: "application/json",
+              },
+            )
+          }
+        >
+          {method === "POST" ? "Submit as Draft" : "Update Draft "}
+        </Button>
+
         <Button onClick={() => console.log("Hello")}>Discard Post</Button>
       </div>
     </div>
