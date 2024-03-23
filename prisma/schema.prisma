@@ -11,19 +11,19 @@ datasource db {
 }
 
 model Post {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @db.Timestamp()
-  updatedAt DateTime @updatedAt
+  id        String  @id @default(uuid())
+  createdAt String
+  updatedAt String
   title     String
   subTitle  String
   content   String?
-  published Boolean  @default(false)
+  published Boolean @default(false)
   readTime  String
   keywords  String
   category  String
   thumbnail String
-  readCount Int      @default(0)
-  author    User     @relation(fields: [authorId], references: [id])
+  readCount Int     @default(0)
+  author    User    @relation(fields: [authorId], references: [id])
   authorId  String
 }
 

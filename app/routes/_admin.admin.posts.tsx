@@ -77,9 +77,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function Admin_Posts() {
   const userLoaderData = useLoaderData<typeof loader>();
-  const userActionData = useActionData<typeof action>();
-
-  console.log("🚀 ~ Admin_Posts ~ userActionData:", userActionData);
 
   const blogsFromdb = userLoaderData.data;
   // console.log("🚀 ~ Admin_Posts ~ userLoaderData:", blogsFromdb);

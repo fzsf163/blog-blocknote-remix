@@ -1,8 +1,7 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
-import { useFetcher } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 type Data = {
   data?: string;
@@ -10,8 +9,6 @@ type Data = {
 };
 export default function EditorBlockNote({ setData, data }: Data) {
   const [html, setHTML] = useState<string>("");
-  const theObj = { __html: html };
-  const fetcher = useFetcher();
   // handle images
   const handleImageUplaod = async (img: any) => {
     let url;

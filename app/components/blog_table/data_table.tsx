@@ -120,7 +120,7 @@ export function DataTable<TData, TValue>({
                   Title
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="published">
-                  Published
+                  Date
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>

@@ -38,8 +38,8 @@ type BlogFormData = {
   >;
   thumbImg: string;
   setThumbImg: React.Dispatch<React.SetStateAction<string>>;
-  data: string;
-  setData: React.Dispatch<React.SetStateAction<string>>;
+  data: string | undefined;
+  setData: React.Dispatch<React.SetStateAction<string | undefined>>;
   fetcher?: any;
   method: string | undefined;
   resetData: () => void;
@@ -58,7 +58,6 @@ export default function Blog_Form_box({
   fetcher,
   resetData,
 }: BlogFormData) {
-  console.log(method);
   return (
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
       <div className="space-y-3">
@@ -74,6 +73,7 @@ export default function Blog_Form_box({
           onChange={(x) =>
             setBlogData({ ...blogData, title: x.currentTarget.value })
           }
+          required
         ></Textarea>
       </div>
       <div className="space-y-3">

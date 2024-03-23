@@ -45,42 +45,39 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   let cat = JSON.stringify(category);
   const session = await getSession(request.headers.get("Cookie"));
   const user = session.data?.sessionKey?.userID;
-
-  switch (request.method) {
-    case "POST": {
-      if (k) {
-        try {
-          await db.post.create({
-            data: {
-              title: blogData.title,
-              subTitle: blogData.subtitle,
-              keywords: blogData.keywords,
-              readTime: blogData.readtime,
-              category: cat,
-              thumbnail: thumbImg,
-              authorId: user,
-              content: data,
-              published: published,
-            },
-          });
-          return json({ data_Submission: true });
-        } catch {
-          (error: any) => {
-            throw new Response(error);
-          };
-        }
-      }
+  let date = new Date().toLocaleString(undefined, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute:"numeric"
+  });
+  console.log("🚀 ~ action ~ date:", date);
+  if (k) {
+    try {
+      await db.post.create({
+        data: {
+          title: blogData.title,
+          subTitle: blogData.subtitle,
+          keywords: blogData.keywords,
+          readTime: blogData.readtime,
+          category: cat,
+          thumbnail: thumbImg,
+          authorId: user,
+          content: data,
+          createdAt: date,
+          published: published,
+          updatedAt: "",
+        },
+      });
+    } catch {
+      (error: any) => {
+        throw new Response(error);
+      };
     }
-    case "PATCH": {
-      return new Response("Patch does not work in this route");
-    }
-    case "PUT": {
-      return new Response("Put does not work in this route");
-    }
-    case "DELETE": {
-      return new Response("DELETE does not work in this route");
-    }
+    return json({ data_Submission: true });
   }
+  return { error: "Did not create" };
 };
 type data_Submission = boolean;
 type error = any;
@@ -89,9 +86,8 @@ export default function Admin_Posts_Create() {
   const { toast } = useToast();
   const fetcher = useFetcher();
   const d: submission = fetcher.data;
-  console.log("🚀 ~ Admin_Posts_Create ~ d:", d);
 
-  const [data, setData] = useState<string>("");
+  const [data, setData] = useState<string | undefined>("");
   const [thumbImg, setThumbImg] = useState<string>("");
 
   const [category, setCategory] = useState({
@@ -108,7 +104,7 @@ export default function Admin_Posts_Create() {
   });
 
   const resteData = () => {
-    setData("");
+    setData(undefined);
     setThumbImg("");
     setBlogData({ title: "", keywords: "", readtime: "", subtitle: "" });
     setCategory({ c1: "", c2: "", c3: "" });
@@ -125,10 +121,7 @@ export default function Admin_Posts_Create() {
   }, [d?.data_Submission]);
   return (
     <div className="  h-[100dvh] w-[1250px]  ">
-      <h1 className="mb-2 font-mono text-2xl font-bold text-white/90">
-        {" "}
-        Make a Post
-      </h1>
+      <h1 className="mb-2 font-mono text-2xl font-bold "> Make a Post</h1>
       <hr />
       <Blog_Form_box
         blogData={blogData}

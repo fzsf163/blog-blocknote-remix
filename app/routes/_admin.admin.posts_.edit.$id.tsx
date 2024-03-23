@@ -53,7 +53,7 @@ type PATCH_POST = {
     readtime: string;
     subtitle: string;
   };
-  data: string;
+  data: string | undefined;
   published: boolean;
   thumbImg: string;
 };
@@ -64,6 +64,13 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   console.log("🚀 ~ action ~ x:", x);
   const { category, blogData, data, published, thumbImg }: PATCH_POST = x;
   let cat = JSON.stringify(category);
+  let date = new Date().toLocaleString(undefined, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  });
   switch (request.method) {
     case "POST": {
       try {
@@ -77,6 +84,7 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
             published: published,
             content: data,
             thumbnail: thumbImg,
+            updatedAt: date,
           },
           where: {
             id: id_of_post,
@@ -107,7 +115,7 @@ export default function Admin_Posts_Edit_One() {
   const d: submission = fetcher.data;
   console.log("🚀 ~ Admin_Posts_Edit_One ~ d:", d);
 
-  const [data, setData] = useState<string>("");
+  const [data, setData] = useState<string | undefined>("");
   const [thumbImg, setThumbImg] = useState<string>("");
   //@ts-ignore
   const thumb = post?.thumbnail;
@@ -146,7 +154,7 @@ export default function Admin_Posts_Edit_One() {
     }
   }
   const resteData = () => {
-    setData("");
+    setData(undefined);
     setThumbImg("");
     setBlogData({ title: "", keywords: "", readtime: "", subtitle: "" });
     setCategory({ c1: "", c2: "", c3: "" });
@@ -155,8 +163,8 @@ export default function Admin_Posts_Edit_One() {
     if (d?.data_Submission !== undefined) {
       if (d?.data_Submission === true) {
         toast({
-          title: "Post Has been Created",
-          description: "Your post has been successfully added",
+          title: "Post Has been Updated",
+          description: "Your post has been successfully updated",
         });
       }
     }

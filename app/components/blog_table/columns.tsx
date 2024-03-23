@@ -40,26 +40,25 @@ export function PopDelete({ id }: ID) {
           Do you really want to delete this post?{" "}
         </p>
         <div className=" flex items-center justify-center gap-8">
-          <Form navigate={false}>
-            <Button
-              variant={"outline"}
-              size={"lg"}
-              className="w-full bg-red-500 text-white hover:bg-green-600 hover:text-white"
-              onClick={() =>
-                submit(
-                  { id },
-                  {
-                    action: "/admin/posts",
-                    encType: "application/json",
-                    method: "DELETE",
-                    navigate: false,
-                  },
-                )
-              }
-            >
-              YES
-            </Button>
-          </Form>{" "}
+          <Button
+            variant={"outline"}
+            size={"lg"}
+            className="w-full bg-red-500 text-white hover:bg-green-600 hover:text-white"
+            onClick={() => {
+              submit(
+                { id },
+                {
+                  action: "/admin/posts",
+                  encType: "application/json",
+                  method: "DELETE",
+                  navigate: false,
+                },
+              );
+              setIsOpen(false);
+            }}
+          >
+            YES
+          </Button>
           <Button
             variant={"outline"}
             size={"lg"}
@@ -146,7 +145,7 @@ export const columns: ColumnDef<Blog_Posts>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="text-white"
         >
-          Status
+          Status/Published
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
@@ -176,14 +175,13 @@ export const columns: ColumnDef<Blog_Posts>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="text-white"
         >
-          Published
+          Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
       const date: string = row.getValue("published");
-      console.log("🚀 ~ date:", date)
       // const formatted = new Intl.DateTimeFormat("en", {
       //   dateStyle: "full",
       //   timeStyle: "short",
