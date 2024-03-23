@@ -1,19 +1,14 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
-import {
-  MetaFunction,
-  useActionData,
-  useFetcher,
-  useNavigate,
-  useSubmit,
-} from "@remix-run/react";
+import { MetaFunction, useFetcher, useNavigate } from "@remix-run/react";
 
 import { json } from "@remix-run/node";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { getSession, requireUserSession } from "~/utils/session.server";
 import { db } from "~/utils/db.server";
 import Blog_Form_box from "~/components/blog_create_form";
-import { error } from "console";
+import { Toaster } from "~/components/ui/toaster";
+import { useToast } from "~/components/ui/use-toast";
 
 export const meta: MetaFunction = () => {
   return [
@@ -21,19 +16,9 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Welcome to Remix!" },
   ];
 };
-// export const handle = {
-//   breadcrumb: () => <Link to="/admin/posts/create">Create Post</Link>,
-// };
-// export const links: LinksFunction = () => [
-//   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-// ];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await requireUserSession(request);
-  // return json({ login: session });
-  // await authenticator.isAuthenticated(request, {
-  //   failureRedirect: "/admin",
-  // });
   return "ok";
 };
 
@@ -101,10 +86,11 @@ type data_Submission = boolean;
 type error = any;
 type submission = data_Submission | error;
 export default function Admin_Posts_Create() {
+  const { toast } = useToast();
   const fetcher = useFetcher();
   const d: submission = fetcher.data;
+  console.log("🚀 ~ Admin_Posts_Create ~ d:", d);
 
-  const navigate = useNavigate();
   const [data, setData] = useState<string>("");
   const [thumbImg, setThumbImg] = useState<string>("");
 
@@ -120,14 +106,23 @@ export default function Admin_Posts_Create() {
     keywords: "",
     readtime: "",
   });
-  const handleClick = () => {
-    navigate(".", { replace: true });
+
+  const resteData = () => {
+    setData("");
+    setThumbImg("");
+    setBlogData({ title: "", keywords: "", readtime: "", subtitle: "" });
+    setCategory({ c1: "", c2: "", c3: "" });
   };
-
-  // console.log("🚀 ~ Admin_Posts_Create ~ thumbImg:", thumbImg);
-  // console.log("🚀 ~ Admin_Posts_Create ~ data:", data);
-  // console.log("🚀 ~ Admin_Posts_Create ~ values:", values);
-
+  useEffect(() => {
+    if (d?.data_Submission !== undefined) {
+      if (d?.data_Submission === true) {
+        toast({
+          title: "Post Has been Created",
+          description: "Your post has been successfully added",
+        });
+      }
+    }
+  }, [d?.data_Submission]);
   return (
     <div className="  h-[100dvh] w-[1250px]  ">
       <h1 className="mb-2 font-mono text-2xl font-bold text-white/90">
@@ -146,7 +141,9 @@ export default function Admin_Posts_Create() {
         thumbImg={thumbImg}
         method="POST"
         fetcher={fetcher}
+        resetData={resteData}
       ></Blog_Form_box>
+      <Toaster />
     </div>
   );
 }

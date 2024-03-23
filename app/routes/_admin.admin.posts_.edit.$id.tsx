@@ -15,6 +15,8 @@ import EditorBlockNote from "~/components/blockNote.client";
 import Blog_Form_box from "~/components/blog_create_form";
 import { db } from "~/utils/db.server";
 import { requireUserSession } from "~/utils/session.server";
+import { toast } from "~/components/ui/use-toast";
+import { Toaster } from "~/components/ui/toaster";
 
 export const meta: MetaFunction = () => {
   return [
@@ -64,9 +66,6 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
   let cat = JSON.stringify(category);
   switch (request.method) {
     case "POST": {
-      return new Response("post does not work here");
-    }
-    case "PATCH": {
       try {
         await db.post.update({
           data: {
@@ -88,6 +87,9 @@ export const action = async ({ request, params }: ActionFunctionArgs) => {
         return error;
       }
     }
+    case "PATCH": {
+      return new Response("Patch");
+    }
     case "PUT": {
       return new Response("Put does not work in this route");
     }
@@ -103,9 +105,7 @@ export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const d: submission = fetcher.data;
-
-  //@ts-ignore
-  // console.log("🚀 ~ Admin_Posts_Edit_One ~ post:", post?.thumbanail);
+  console.log("🚀 ~ Admin_Posts_Edit_One ~ d:", d);
 
   const [data, setData] = useState<string>("");
   const [thumbImg, setThumbImg] = useState<string>("");
@@ -145,7 +145,22 @@ export default function Admin_Posts_Edit_One() {
       setThumbImg(post?.thumbnail);
     }
   }
-
+  const resteData = () => {
+    setData("");
+    setThumbImg("");
+    setBlogData({ title: "", keywords: "", readtime: "", subtitle: "" });
+    setCategory({ c1: "", c2: "", c3: "" });
+  };
+  useEffect(() => {
+    if (d?.data_Submission !== undefined) {
+      if (d?.data_Submission === true) {
+        toast({
+          title: "Post Has been Created",
+          description: "Your post has been successfully added",
+        });
+      }
+    }
+  }, [d?.data_Submission]);
   return (
     <div className="  h-[100dvh] w-[1250px] ">
       <h1 className="mb-2 font-mono text-2xl font-bold text-white/90">
@@ -164,7 +179,9 @@ export default function Admin_Posts_Edit_One() {
         thumbImg={thumbImg === undefined ? thumb : thumbImg}
         method="PATCH"
         fetcher={fetcher}
+        resetData={resteData}
       ></Blog_Form_box>
+      <Toaster />
     </div>
   );
 }

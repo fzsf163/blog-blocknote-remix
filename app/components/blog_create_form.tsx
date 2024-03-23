@@ -1,9 +1,3 @@
-import {
-  FetcherWithComponents,
-  Form,
-  SubmitFunction,
-  useFetcher,
-} from "@remix-run/react";
 import MyDropzone from "~/components/dragNdrop.client";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -48,6 +42,7 @@ type BlogFormData = {
   setData: React.Dispatch<React.SetStateAction<string>>;
   fetcher?: any;
   method: string | undefined;
+  resetData: () => void;
 };
 
 export default function Blog_Form_box({
@@ -61,7 +56,9 @@ export default function Blog_Form_box({
   thumbImg,
   method,
   fetcher,
+  resetData,
 }: BlogFormData) {
+  console.log(method);
   return (
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
       <div className="space-y-3">
@@ -180,7 +177,7 @@ export default function Blog_Form_box({
                 published: true,
               },
               {
-                method: method === "POST" ? "POST" : "PATCH",
+                method: "POST",
                 encType: "application/json",
               },
             )
@@ -202,7 +199,7 @@ export default function Blog_Form_box({
                 published: false,
               },
               {
-                method: method === "POST" ? "POST" : "PATCH",
+                method: "POST",
                 encType: "application/json",
               },
             )
@@ -211,7 +208,13 @@ export default function Blog_Form_box({
           {method === "POST" ? "Submit as Draft" : "Update Draft "}
         </Button>
 
-        <Button onClick={() => console.log("Hello")}>Discard Post</Button>
+        <Button
+          className={`${method === "PATCH" ? "hidden" : ""}`}
+          onClick={resetData}
+          type="reset"
+        >
+          Reset
+        </Button>
       </div>
     </div>
   );
