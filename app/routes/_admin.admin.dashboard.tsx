@@ -30,9 +30,10 @@ import {
 import { ClientOnly } from "remix-utils/client-only";
 import Stat_Box from "~/components/statBox";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Blog_Card from "~/components/blogcard";
-
+import { ScrollArea } from "~/components/ui/scroll-area";
+import Clock from "react-live-clock";
 export const meta: MetaFunction = () => {
   return [
     { title: "admin/posts page" },
@@ -71,7 +72,23 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     },
   });
 
-  return u;
+  const p = await db.post.findMany({
+    orderBy: [
+      {
+        createdAt: "asc",
+      },
+    ],
+    select: {
+      title: true,
+      createdAt: true,
+    },
+  });
+
+  const c_c = await db.comments.count();
+  const c_s = await db.subscribers.count();
+  const c_p = await db.post.count();
+
+  return { u, p, c_c, c_s, c_p };
 };
 
 // export async function action({ request }: ActionFunctionArgs) {
@@ -115,7 +132,8 @@ const renderCustomizedLabel = ({
   );
 };
 export default function Admin_Posts() {
-  const u = useLoaderData<typeof loader>();
+  const { u, p, c_c, c_s, c_p } = useLoaderData<typeof loader>();
+
   const [parent] = useAutoAnimate(/* optional config */);
   let data = [
     { name: "Total Readers", value: 23, fill: "#57c0E6" },
@@ -145,24 +163,20 @@ export default function Admin_Posts() {
             {u?.name}
           </span>
         </h1>
-        {/* <Form method="POST">
-          <Button
-            size={"icon"}
-            type="submit"
-            className="font-bold hover:bg-blue-400 hover:text-black"
-          >
-            <Power></Power>
-          </Button>
-        </Form> */}
+        <Clock
+          format={"dddd, MMMM Do YYYY, h:mm:ss a"}
+          ticking={true}
+          className="text-lg font-bold"
+          noSsr
+          // blinking={"all"}
+          // timezone={"Asia/Dacca"}
+        />
       </div>
       {/* card boxes for stat */}
-      <div
-        ref={parent}
-        className="flex flex-wrap items-start justify-start gap-4 p-2"
-      >
+      <div ref={parent} className="grid grid-cols-2 gap-5">
         <Stat_Box
           key={"subss"}
-          count={1000}
+          count={c_s}
           emoji="💖"
           title_text="Subscribers"
         ></Stat_Box>
@@ -174,44 +188,44 @@ export default function Admin_Posts() {
         ></Stat_Box>
         <Stat_Box
           key={"blogsss"}
-          count={4000}
+          count={c_p}
           emoji="🌸"
           title_text="Blogs"
         ></Stat_Box>
         <Stat_Box
           key={"pageeeess"}
-          count={10300}
+          count={c_p}
           emoji="🥲"
           title_text="Pages"
         ></Stat_Box>
         <Stat_Box
           key={"comeeenasnashj"}
-          count={123300}
+          count={c_c}
           emoji="📖"
           title_text="Comments"
         ></Stat_Box>
-        <Stat_Box
+        {/* <Stat_Box
           key={"carageggeeg"}
           count={100}
           emoji="🎃"
           title_text="Categories"
-        ></Stat_Box>
-        <Stat_Box
+        ></Stat_Box> */}
+        {/* <Stat_Box
           key={"keyeiwowods"}
           count={500}
           emoji="🔑"
           title_text="Keywords"
-        ></Stat_Box>
+        ></Stat_Box> */}
       </div>
       <br />
       <br />
       {/* charts begin  here */}
-      <div className="flex items-center justify-evenly">
+      <div className="flex items-center justify-start gap-6">
         <ClientOnly>
           {() => (
             <AreaChart
               width={730}
-              height={250}
+              height={450}
               data={blogView}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
@@ -247,13 +261,23 @@ export default function Admin_Posts() {
           )}
         </ClientOnly>
         <div className="w-[600px] bg-black/5">
-          <div className="h-[60px]  bg-black/60">
-            <h1 className="p-2 font-mono text-3xl font-bold text-white">
+          <div className="h-[70px]  rounded bg-black/60">
+            <h1 className="p-4 font-mono text-3xl font-bold text-white">
               Recent Blogs
             </h1>
           </div>
-          <div className="mb-10 p-5">
-            <Blog_Card></Blog_Card>
+          <div className="px-3 py-2">
+            <ScrollArea className="h-[500px]">
+              {p.map((x) => {
+                return (
+                  <Blog_Card
+                    name={x.title}
+                    time={x.createdAt}
+                    key={x.createdAt}
+                  ></Blog_Card>
+                );
+              })}
+            </ScrollArea>
           </div>
         </div>
       </div>

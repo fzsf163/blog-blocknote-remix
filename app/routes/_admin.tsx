@@ -1,5 +1,11 @@
 import type { LinksFunction } from "@remix-run/node";
-import { Form, MetaFunction, NavLink, Outlet } from "@remix-run/react";
+import {
+  Form,
+  MetaFunction,
+  NavLink,
+  Outlet,
+  useFetcher,
+} from "@remix-run/react";
 
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -8,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { cssBundleHref } from "@remix-run/css-bundle";
 
 import Hover_Box from "~/components/hoverCard";
+import Dialuge from "~/components/dialouge";
 
 export const meta: MetaFunction = () => {
   return [
@@ -31,8 +38,8 @@ const admin_routes = [
 
 export default function Admin_Layout() {
   return (
-    <div className="flex h-[100dvh] items-start justify-start bg-slate-300">
-      <aside className=" flex h-full w-[280px] flex-col items-start justify-start gap-4 bg-slate-500 px-5 pt-10">
+    <div className=" flex h-[100dvh] items-start justify-start bg-slate-300">
+      <aside className=" fixed -left-[14rem] flex h-full w-[280px] flex-col items-start justify-start gap-4 bg-slate-500 px-5 pt-10 transition-all duration-200 ease-in-out hover:left-0">
         {admin_routes.map((ar) => {
           return (
             <NavLink
@@ -58,11 +65,14 @@ export default function Admin_Layout() {
           );
         })}
       </aside>
-      <div className="flex w-full flex-col items-center justify-center gap-8 ">
-        <header className="flex h-[5rem] w-full items-center justify-between  px-5">
-          <h1 className=" w-fit bg-gradient-to-r from-pink-600 via-yellow-600 to-blue-700 bg-clip-text p-3 text-4xl font-extrabold text-transparent">
+      <div className=" flex w-full flex-col  items-center justify-center">
+        <header className="flex h-[5rem] w-[70%] items-center justify-between  px-5">
+          <h1 className=" w-fit bg-gradient-to-r from-pink-600 via-yellow-600 to-blue-700 bg-clip-text p-3 text-xl font-extrabold text-transparent">
             Super Blog Admin Panel
           </h1>
+
+          <Dialuge></Dialuge>
+
           <div className="flex items-center justify-center gap-4">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
@@ -73,7 +83,7 @@ export default function Admin_Layout() {
             </Form>
           </div>
         </header>
-        <ScrollArea className="h-[85dvh]" type="scroll">
+        <ScrollArea className="relative left-[5%] h-[90dvh]" type="scroll">
           <Outlet></Outlet>
         </ScrollArea>
       </div>

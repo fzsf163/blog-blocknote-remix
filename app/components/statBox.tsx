@@ -6,7 +6,7 @@ type props = {
 
 export default function Stat_Box({ count, emoji, title_text }: props) {
   return (
-    <div className="relative w-fit min-w-[200px] rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-500 p-6 text-white shadow-lg">
+    <div className="relative  w-full rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-500 p-6 text-white shadow-lg">
       <span className="absolute -left-2 -top-3 text-4xl">
         {emoji ? emoji : "💖"}{" "}
       </span>

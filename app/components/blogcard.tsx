@@ -1,19 +1,24 @@
 import "./blogcard.css";
-
-export default function Blog_Card() {
-  return (
-    <div className="card">
+type post = {
+  name: string;
+  time: string;
+};
+export default function Blog_Card({ name, time }: post) {
+  return name === "" || time === "" ? (
+   null
+  ) : (
+    <div className="card my-3">
       <p className="time-text">
-        <span>Blog Name</span>
+        <span>{name}</span>
         {/* <span className="time-sub-text">PM</span> */}
       </p>
-      <p className="day-text">Wednesday, June 15th</p>
+      <p className="day-text">{time}</p>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="1em"
         height="1em"
         viewBox="0 0 16 16"
-        stroke-width="0"
+        strokeWidth="0"
         fill="currentColor"
         stroke="currentColor"
         className="moon"
