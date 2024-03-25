@@ -12,7 +12,6 @@ import { Link, useFetcher } from "@remix-run/react";
 export default function Dialuge() {
   const fetcher = useFetcher();
   const data = fetcher.data;
-  console.log("🚀 ~ Dialuge ~ data:", data);
   return (
     <div>
       <Dialog>

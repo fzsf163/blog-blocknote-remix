@@ -15,6 +15,7 @@ import { cssBundleHref } from "@remix-run/css-bundle";
 
 import Hover_Box from "~/components/hoverCard";
 import Dialuge from "~/components/dialouge";
+import { useState } from "react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -37,15 +38,20 @@ const admin_routes = [
 ];
 
 export default function Admin_Layout() {
+  const [show, setShow] = useState<boolean>(false);
   return (
     <div className=" flex h-[100dvh] items-start justify-start bg-slate-300">
-      <aside className=" fixed -left-[14rem] flex h-full w-[280px] flex-col items-start justify-start gap-4 bg-slate-500 px-5 pt-10 transition-all duration-200 ease-in-out hover:left-0">
+      <aside
+        className="  flex h-full w-[83px] flex-col items-start justify-start gap-4 bg-slate-500 px-5 pt-10 transition-all duration-200 ease-in-out hover:w-[280px]"
+        onMouseEnter={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+      >
         {admin_routes.map((ar) => {
           return (
             <NavLink
               key={ar.label}
               to={ar.href}
-              className={"text-xl text-white"}
+              // className={"text-xl text-white"}
             >
               {({ isActive, isPending }) => (
                 <Button
@@ -54,11 +60,11 @@ export default function Admin_Layout() {
                     isPending
                       ? "bg-blue-400"
                       : isActive
-                        ? "w-[200px] border-none bg-slate-600 text-xl font-bold text-white hover:bg-green-600 hover:text-white"
-                        : "w-[200px] border-black bg-transparent text-white hover:border-none hover:bg-green-600 hover:font-semibold hover:text-white"
+                        ? " border-none bg-slate-600  font-bold text-white hover:bg-green-600 hover:text-white"
+                        : "w-fit border-black bg-transparent text-white hover:border-none hover:bg-green-600 hover:font-semibold hover:text-white"
                   }
                 >
-                  {ar.label}
+                  {show ? ar.label : "Icon"}
                 </Button>
               )}
             </NavLink>
@@ -83,7 +89,7 @@ export default function Admin_Layout() {
             </Form>
           </div>
         </header>
-        <ScrollArea className="relative left-[5%] h-[90dvh]" type="scroll">
+        <ScrollArea className="h-[90dvh]" type="scroll">
           <Outlet></Outlet>
         </ScrollArea>
       </div>

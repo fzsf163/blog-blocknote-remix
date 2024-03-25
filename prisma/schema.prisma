@@ -54,6 +54,7 @@ model Commenters {
 model Comments {
   id          String     @id @default(uuid())
   comments    String
+  reply       String
   commentors  Commenters @relation(fields: [commenterId], references: [id])
   commenterId String
 }

@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Link, MetaFunction, json, useLoaderData } from "@remix-run/react";
 import { authenticator } from "~/utils/auth.server";
+import { db } from "~/utils/db.server";
 import { requireUserSession } from "~/utils/session.server";
 
 export const meta: MetaFunction = () => {
@@ -15,14 +16,23 @@ export const loader = async ({ request, params }: LoaderFunctionArgs) => {
   // await authenticator.isAuthenticated(request, {
   //   failureRedirect: "/admin",
   // });
-  return json(params);
+
+  const p = await db.post.findUnique({
+    where: {
+      id: params?.id,
+    },
+  });
+  return json(p);
 };
 
 export default function Admin_Posts_Show_One() {
-  const { id } = useLoaderData<typeof loader>();
+  const p = useLoaderData<typeof loader>();
+  console.log("🚀 ~ Admin_Posts_Show_One ~ p:", p);
+  const parsedJson = JSON.parse(p?.content!);
+  console.log("🚀 ~ Admin_Posts_Show_One ~ parsedJson:", parsedJson);
   return (
     <div className="h-[100dvh] w-[1500px]">
-      <h1> Show Post with {id} page</h1>
+      <h1> Show Post with {p?.id} page</h1>
     </div>
   );
 }

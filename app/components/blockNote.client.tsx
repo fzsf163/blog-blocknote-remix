@@ -1,7 +1,8 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
-import {  useState } from "react";
+import { useState } from "react";
+
 
 type Data = {
   data?: string;
@@ -41,7 +42,7 @@ export default function EditorBlockNote({ setData, data }: Data) {
   if (data) {
     intContent = JSON.parse(data);
   }
- 
+
   // Creates a new editor instance.
   const editor: BlockNoteEditor = useBlockNote({
     initialContent: intContent || undefined,
@@ -70,7 +71,8 @@ export default function EditorBlockNote({ setData, data }: Data) {
   return (
     <div>
       <BlockNoteView editor={editor} theme={"light"}></BlockNoteView>
-      {/* <pre>{html}</pre> */}
+      <pre className="prose">{html}</pre>
+
       {/* <div className="prose lg:prose-xl" dangerouslySetInnerHTML={theObj} /> */}
     </div>
   );
