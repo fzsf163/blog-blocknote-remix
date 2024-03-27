@@ -70,9 +70,12 @@ export default function Dialuge() {
               //@ts-ignore
               data?.p?.map((x) => {
                 return (
-                  <div key={x.createdAt}>
+                  <div
+                    key={x.createdAt}
+                    className="rounded bg-black/40 px-4 py-3 text-white"
+                  >
                     <Link to={`/admin/posts/show/${x.id}`}>
-                      <p className="text-lg font-bold">
+                      <p className="text-lg font-bold underline  underline-offset-4 hover:text-blue-200">
                         {x.title === "" || x.title === undefined
                           ? null
                           : x.title}
