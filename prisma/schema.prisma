@@ -63,3 +63,8 @@ model Slider {
   id       String @id @default(uuid())
   contents String
 }
+
+model FeaturedBlogs {
+  id       String @id @default(uuid())
+  contents String
+}
