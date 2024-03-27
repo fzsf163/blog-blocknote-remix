@@ -1,45 +1,34 @@
+import type { LinksFunction } from "@remix-run/node";
 // app/routes/login.tsx
 import { Label } from "@radix-ui/react-dropdown-menu";
 import type { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Form, json, useLoaderData } from "@remix-run/react";
+import Login_Reg_Form from "~/components/loginForm";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { authenticator } from "~/utils/auth.server";
 import { requireUserSession, sessionStorage } from "~/utils/session.server";
+import { cssBundleHref } from "@remix-run/css-bundle";
+
+export const links: LinksFunction = () => [
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+];
 
 // First we create our UI with the form doing a POST and the inputs with the
 // names we are going to use in the strategy
 export default function Login_Admin() {
   const er = useLoaderData<typeof loader>();
-  console.log("🚀 ~ Login_Admin ~ er:", er);
   return (
-    <div className="mx-auto h-[100dvh] bg-black/80 text-white">
+    <div className="mx-auto h-[100dvh]  bg-[url('/assests/log-bg.jpg')] bg-cover bg-no-repeat text-white">
+      <em className="p-5 text-center font-mono text-xl text-black">
+        {" "}
+        {er ? <p>{er?.error?.message}</p> : null}
+      </em>
       <Form
         method="POST"
-        className="relative top-[25%] mx-auto flex w-fit flex-col items-center justify-center gap-5 rounded border border-blue-300 p-10"
+        className="relative top-[25%] mx-auto flex w-fit flex-col items-center justify-center gap-5 rounded   p-10"
       >
-        <div>
-          <Label className="text-lg font-bold">Email</Label>
-          <Input
-            type="email"
-            className="w-[20rem] bg-black/30"
-            required
-            name="email"
-          ></Input>
-        </div>
-        <div>
-          <Label className="text-lg font-bold">Password</Label>
-          <Input
-            type="password"
-            className="w-[20rem] bg-black/30"
-            name="password"
-            required
-          ></Input>
-        </div>
-        <Button type="submit" className="w-[20rem]">
-          Sign In
-        </Button>
-        {er ? <p>{er?.error?.message}</p> : null}
+        <Login_Reg_Form></Login_Reg_Form>
       </Form>
     </div>
   );
