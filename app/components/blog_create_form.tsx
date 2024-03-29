@@ -40,6 +40,8 @@ type BlogFormData = {
   setThumbImg: React.Dispatch<React.SetStateAction<string>>;
   data: string | undefined;
   setData: React.Dispatch<React.SetStateAction<string | undefined>>;
+  html?: string | undefined;
+  setHTML?: React.Dispatch<React.SetStateAction<string | undefined>>;
   fetcher?: any;
   method: string | undefined;
   resetData: () => void;
@@ -57,6 +59,8 @@ export default function Blog_Form_box({
   method,
   fetcher,
   resetData,
+  html,
+  setHTML,
 }: BlogFormData) {
   return (
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
@@ -159,7 +163,12 @@ export default function Blog_Form_box({
         <h5 className="font-mono text-lg font-bold">Add Blog Content</h5>
         <ClientOnly fallback={<p>Loading....</p>}>
           {() => (
-            <EditorBlockNote data={data} setData={setData}></EditorBlockNote>
+            <EditorBlockNote
+              data={data}
+              setData={setData}
+              setHTML={setHTML!}
+              html={html!}
+            ></EditorBlockNote>
           )}
         </ClientOnly>
       </div>

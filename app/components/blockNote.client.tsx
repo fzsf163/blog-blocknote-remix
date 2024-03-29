@@ -1,15 +1,20 @@
 import { BlockNoteEditor } from "@blocknote/core";
 import { BlockNoteView, useBlockNote } from "@blocknote/react";
 import "@blocknote/react/style.css";
-import { useState } from "react";
-
 
 type Data = {
   data?: string;
   setData: (x: string) => void;
+  html: string;
+  setHTML: (x: string) => void;
 };
-export default function EditorBlockNote({ setData, data }: Data) {
-  const [html, setHTML] = useState<string>("");
+export default function EditorBlockNote({
+  setData,
+  data,
+  setHTML,
+  html,
+}: Data) {
+  // const [html, setHTML] = useState<string>("");
   // handle images
   const handleImageUplaod = async (img: any) => {
     let url;
@@ -52,28 +57,35 @@ export default function EditorBlockNote({ setData, data }: Data) {
       setData(JSON.stringify(ctx));
       // console.log(JSON.stringify(ctx));
       const saveBlocksAsHTML = async () => {
-        const html: string = await editor.blocksToHTMLLossy(
+        const html2: string = await editor.blocksToHTMLLossy(
           editor.topLevelBlocks,
         );
-        setHTML(html);
+        setHTML(html2);
       };
       saveBlocksAsHTML();
     },
     domAttributes: {
       editor: {
-        class: "p-10",
+        class: "p-10 bg-black",
       },
     },
     uploadFile: handleImageUplaod,
+    // editable: false,
   });
 
+  let replacHTML = html?.replace("class", "className");
+  console.log("🚀 ~ EditorBlockNote ~ replacHTML:", replacHTML);
   // Renders the editor instance using a React component.
   return (
     <div>
-      <BlockNoteView editor={editor} theme={"light"}></BlockNoteView>
-      <pre className="prose">{html}</pre>
+      <BlockNoteView editor={editor}></BlockNoteView>
+      <pre className="w-[800px] overflow-scroll break-words">{html}</pre>
 
-      {/* <div className="prose lg:prose-xl" dangerouslySetInnerHTML={theObj} /> */}
+      <div
+        id="blog-post-html"
+        className="prose  w-full border"
+        dangerouslySetInnerHTML={{ __html: html! }}
+      />
     </div>
   );
 }

@@ -50,7 +50,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     month: "long",
     year: "numeric",
     hour: "numeric",
-    minute:"numeric"
+    minute: "numeric",
   });
   console.log("🚀 ~ action ~ date:", date);
   if (k) {
@@ -86,6 +86,7 @@ export default function Admin_Posts_Create() {
   const { toast } = useToast();
   const fetcher = useFetcher();
   const d: submission = fetcher.data;
+  const [html, setHTML] = useState<string | undefined>("");
 
   const [data, setData] = useState<string | undefined>("");
   const [thumbImg, setThumbImg] = useState<string>("");
@@ -135,6 +136,8 @@ export default function Admin_Posts_Create() {
         method="POST"
         fetcher={fetcher}
         resetData={resteData}
+        setHTML={setHTML}
+        html={html}
       ></Blog_Form_box>
       <Toaster />
     </div>
