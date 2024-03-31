@@ -128,7 +128,7 @@ export default function Admin_Posts_Create() {
     }
   }, [d?.data_Submission]);
   return (
-    <div className="  h-[100dvh] w-[1250px]  ">
+    <div className="  h-[100dvh] sm:w-[350px] md:w-[760px] lg:w-[1250px]  ">
       <h1 className="mb-2 font-mono text-2xl font-bold ">Make a Post</h1>
       <hr />
 
@@ -160,11 +160,6 @@ export default function Admin_Posts_Create() {
         </TabsContent>
         <TabsContent value="preview">
           {" "}
-          {/* <div
-            id="blog-post-html"
-            className="prose  w-full border"
-            dangerouslySetInnerHTML={{ __html: html! }}
-          /> */}
           <div id="blog-post-html">{parse(html!)}</div>
         </TabsContent>
       </Tabs>
