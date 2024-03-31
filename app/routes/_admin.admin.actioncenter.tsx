@@ -11,5 +11,15 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   return { userActionCenter: "ok" };
 };
 export default function Action_Center() {
-  return <div>This is Action Center</div>;
+  return (
+    <div>
+      This is Action Center
+      <div>
+        <h1>Slider</h1>
+        <h1>Featured post</h1>
+        <h1>Trending post</h1>
+        <h1>Comments</h1>
+      </div>
+    </div>
+  );
 }

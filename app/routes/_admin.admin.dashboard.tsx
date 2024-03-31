@@ -157,7 +157,7 @@ export default function Admin_Posts() {
     <div className="w-[1500px] px-2 py-3">
       <div className="m-5 flex items-center justify-between">
         <h1 className="text-xl font-bold capitalize">
-          Welcome to Dashborad ,
+          Welcome to Dashborad
           <span className="bg-gradient-to-r from-green-900 via-yellow-900 to-fuchsia-900 bg-clip-text text-transparent">
             {" "}
             {u?.name}

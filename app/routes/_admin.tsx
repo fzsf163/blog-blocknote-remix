@@ -74,8 +74,8 @@ export default function Admin_Layout() {
                     isPending
                       ? "bg-blue-400"
                       : isActive
-                        ? " border-none bg-slate-400  font-bold text-white   hover:bg-green-600 hover:text-white"
-                        : "w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-600 hover:font-semibold  hover:text-white"
+                        ? `${show ? "w-[150px] border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white" : " border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white"}`
+                        : `${show ? "w-[150px] border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white":"w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white"}`
                   }
                 >
                   {show ? ar.label : ar.icon}
