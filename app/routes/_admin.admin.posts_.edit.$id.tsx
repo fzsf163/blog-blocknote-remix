@@ -2,6 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, LoaderFunctionArgs } from "@remix-run/node";
 import {
+  Link,
   MetaFunction,
   json,
   useActionData,
@@ -18,6 +19,7 @@ import { requireUserSession } from "~/utils/session.server";
 import { toast } from "~/components/ui/use-toast";
 import { Toaster } from "~/components/ui/toaster";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Button } from "~/components/ui/button";
 export const meta: MetaFunction = () => {
   return [
     { title: "admin/posts page" },
@@ -111,6 +113,8 @@ type error = any;
 type submission = data_Submission | error;
 export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
+  // @ts-ignore
+  const id = post?.id;
   const fetcher = useFetcher();
   const d: submission = fetcher.data;
   const [html, setHTML] = useState<string | undefined>("");
@@ -165,6 +169,11 @@ export default function Admin_Posts_Edit_One() {
         toast({
           title: "Post Has been Updated",
           description: "Your post has been successfully updated",
+          action: (
+            <Button>
+              <Link to={`/admin/posts/show/${id}`}>See Post</Link>
+            </Button>
+          ),
         });
       }
     }
