@@ -204,7 +204,7 @@ export default function Admin_Posts_Edit_One() {
               setData={setData}
               setThumbImg={setThumbImg}
               thumbImg={thumbImg === undefined ? thumb : thumbImg}
-              method="POST"
+              method="PATCH"
               fetcher={fetcher}
               resetData={resteData}
               setHTML={setHTML}
