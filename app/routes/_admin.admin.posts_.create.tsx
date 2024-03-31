@@ -11,7 +11,7 @@ import { Toaster } from "~/components/ui/toaster";
 import { useToast } from "~/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Button } from "~/components/ui/button";
-
+import parse from "html-react-parser";
 export const meta: MetaFunction = () => {
   return [
     { title: "admin/create page" },
@@ -87,6 +87,7 @@ type submission = data_Submission | error;
 export default function Admin_Posts_Create() {
   const { toast } = useToast();
   const fetcher = useFetcher();
+  const state = fetcher.state;
   const d: submission = fetcher.data;
   const [html, setHTML] = useState<string | undefined>("");
 
@@ -133,34 +134,39 @@ export default function Admin_Posts_Create() {
       <hr />
 
       <Tabs defaultValue="postmaker" className="mt-5 w-full">
-        <TabsList className="float-right mr-10">
+        <TabsList className="">
           <TabsTrigger value="postmaker">POST</TabsTrigger>
           <TabsTrigger value="preview">PREVIEW</TabsTrigger>
         </TabsList>
         <TabsContent value="postmaker">
-          <Blog_Form_box
-            blogData={blogData}
-            category={category}
-            data={data}
-            setBlogData={setBlogData}
-            setCategory={setCategory}
-            setData={setData}
-            setThumbImg={setThumbImg}
-            thumbImg={thumbImg}
-            method="POST"
-            fetcher={fetcher}
-            resetData={resteData}
-            setHTML={setHTML}
-            html={html}
-          ></Blog_Form_box>
+          {state === "submitting" ? (
+            <p>Submitting Post</p>
+          ) : (
+            <Blog_Form_box
+              blogData={blogData}
+              category={category}
+              data={data}
+              setBlogData={setBlogData}
+              setCategory={setCategory}
+              setData={setData}
+              setThumbImg={setThumbImg}
+              thumbImg={thumbImg}
+              method="POST"
+              fetcher={fetcher}
+              resetData={resteData}
+              setHTML={setHTML}
+              html={html}
+            ></Blog_Form_box>
+          )}
         </TabsContent>
         <TabsContent value="preview">
           {" "}
-          <div
+          {/* <div
             id="blog-post-html"
             className="prose  w-full border"
             dangerouslySetInnerHTML={{ __html: html! }}
-          />
+          /> */}
+          <div id="blog-post-html">{parse(html!)}</div>
         </TabsContent>
       </Tabs>
 

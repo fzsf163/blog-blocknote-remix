@@ -116,6 +116,7 @@ export default function Admin_Posts_Edit_One() {
   // @ts-ignore
   const id = post?.id;
   const fetcher = useFetcher();
+  const state = fetcher.state;
   const d: submission = fetcher.data;
   const [html, setHTML] = useState<string | undefined>("");
 
@@ -186,26 +187,30 @@ export default function Admin_Posts_Edit_One() {
       </h1>
       <hr />
       <Tabs defaultValue="postmaker" className="mt-5 w-full">
-        <TabsList className="float-right mr-10">
+        <TabsList className="">
           <TabsTrigger value="postmaker">POST</TabsTrigger>
           <TabsTrigger value="preview">PREVIEW</TabsTrigger>
         </TabsList>
         <TabsContent value="postmaker">
-          <Blog_Form_box
-            blogData={blogData}
-            category={category}
-            data={data}
-            setBlogData={setBlogData}
-            setCategory={setCategory}
-            setData={setData}
-            setThumbImg={setThumbImg}
-            thumbImg={thumbImg === undefined ? thumb : thumbImg}
-            method="POST"
-            fetcher={fetcher}
-            resetData={resteData}
-            setHTML={setHTML}
-            html={html}
-          ></Blog_Form_box>
+          {state === "submitting" ? (
+            <p>Submitting Post</p>
+          ) : (
+            <Blog_Form_box
+              blogData={blogData}
+              category={category}
+              data={data}
+              setBlogData={setBlogData}
+              setCategory={setCategory}
+              setData={setData}
+              setThumbImg={setThumbImg}
+              thumbImg={thumbImg === undefined ? thumb : thumbImg}
+              method="POST"
+              fetcher={fetcher}
+              resetData={resteData}
+              setHTML={setHTML}
+              html={html}
+            ></Blog_Form_box>
+          )}
         </TabsContent>
         <TabsContent value="preview">
           {" "}

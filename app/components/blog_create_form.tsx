@@ -66,7 +66,7 @@ export default function Blog_Form_box({
     <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
       <div className="space-y-3">
         <Label htmlFor="title_blog" className="text-lg font-bold capitalize  ">
-          Title for your blog
+          Title for your blog <em>(required)</em>
         </Label>
         <Textarea
           placeholder="Enter a Title for your blog"
@@ -97,7 +97,7 @@ export default function Blog_Form_box({
       </div>
       <div className="space-y-3">
         <Label htmlFor="keywords_blog" className="text-lg font-bold capitalize">
-          Key Words
+          Key Words <em>(required)</em>
         </Label>
         <Textarea
           id="keywords_blog"
@@ -112,7 +112,9 @@ export default function Blog_Form_box({
       </div>
       <div className="flex items-center justify-start gap-5">
         <div className="flex items-center justify-start gap-5">
-          <Label className="text-lg font-bold capitalize">Category</Label>
+          <Label className="text-lg font-bold capitalize">
+            Category <em>(required)</em>
+          </Label>
           <DropdownMenuCheckboxesCategory
             values={category}
             setValues={setCategory}
@@ -123,7 +125,7 @@ export default function Blog_Form_box({
             htmlFor="readtime_blog"
             className="text-nowrap text-lg font-bold capitalize"
           >
-            read time
+            read time <em>(required)</em>
           </Label>
           <Input
             id="readtime_blog"
@@ -138,7 +140,9 @@ export default function Blog_Form_box({
         </div>
       </div>
       <div className="space-y-3">
-        <h5 className="font-mono text-lg font-bold">Add a thumbnail</h5>
+        <h5 className="font-mono text-lg font-bold">
+          Add a thumbnail <em>(required)</em>
+        </h5>
         <ClientOnly fallback={<div>Loading....</div>}>
           {() => <MyDropzone setThumbImg={setThumbImg}></MyDropzone>}
         </ClientOnly>
@@ -160,7 +164,9 @@ export default function Blog_Form_box({
         )}
       </div>
       <div className="space-y-3">
-        <h5 className="font-mono text-lg font-bold">Add Blog Content</h5>
+        <h5 className="font-mono text-lg font-bold">
+          Add Blog Content <em>(required)</em>
+        </h5>
         <ClientOnly fallback={<p>Loading....</p>}>
           {() => (
             <EditorBlockNote
@@ -175,7 +181,8 @@ export default function Blog_Form_box({
       <hr />
       <div className="flex items-start justify-end gap-5">
         <Button
-          disabled={data ? false : true}
+          disabled={data && blogData && category && thumbImg ? false : true}
+          className="bg-green-700"
           onClick={() =>
             fetcher.submit(
               {
@@ -196,8 +203,9 @@ export default function Blog_Form_box({
         </Button>
 
         <Button
-          disabled={data ? false : true}
+          disabled={data && blogData && category && thumbImg ? false : true}
           value={"UPDATE"}
+          className="bg-blue-700"
           onClick={() =>
             fetcher.submit(
               {
@@ -218,7 +226,7 @@ export default function Blog_Form_box({
         </Button>
 
         <Button
-          className={`${method === "PATCH" ? "hidden" : ""}`}
+          className={`${method === "PATCH" ? "hidden" : "bg-red-500"}`}
           onClick={resetData}
           type="reset"
         >
