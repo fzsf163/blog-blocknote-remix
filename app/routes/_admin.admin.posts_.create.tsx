@@ -1,5 +1,5 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
-import { MetaFunction, useFetcher, useNavigate } from "@remix-run/react";
+import { Link, MetaFunction, useFetcher, useNavigate } from "@remix-run/react";
 
 import { json } from "@remix-run/node";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import Blog_Form_box from "~/components/blog_create_form";
 import { Toaster } from "~/components/ui/toaster";
 import { useToast } from "~/components/ui/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Button } from "~/components/ui/button";
 
 export const meta: MetaFunction = () => {
   return [
@@ -117,6 +118,11 @@ export default function Admin_Posts_Create() {
         toast({
           title: "Post Has been Created",
           description: "Your post has been successfully added",
+          action: (
+            <Button>
+              <Link to={`/admin/posts`}>See All Post</Link>
+            </Button>
+          ),
         });
       }
     }

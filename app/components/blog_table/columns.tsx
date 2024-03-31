@@ -2,7 +2,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown, Trash, Edit2 } from "lucide-react";
 import { Checkbox } from "~/components/ui/checkbox";
-import { Form, Link, useSubmit } from "@remix-run/react";
+import { Form, Link, useFetcher, useSubmit } from "@remix-run/react";
 import {
   Popover,
   PopoverContent,
@@ -29,6 +29,7 @@ type ID = {
 export function PopDelete({ id }: ID) {
   const [isOpen, setIsOpen] = useState(false);
   const submit = useSubmit();
+  const fetcher = useFetcher();
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger>
@@ -45,13 +46,12 @@ export function PopDelete({ id }: ID) {
             size={"lg"}
             className="w-full bg-red-500 text-white hover:bg-green-600 hover:text-white"
             onClick={() => {
-              submit(
+              fetcher.submit(
                 { id },
                 {
                   action: "/admin/posts",
                   encType: "application/json",
                   method: "DELETE",
-                  navigate: false,
                 },
               );
               setIsOpen(false);
