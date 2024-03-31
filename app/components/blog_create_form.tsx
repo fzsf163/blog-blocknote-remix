@@ -63,7 +63,7 @@ export default function Blog_Form_box({
   setHTML,
 }: BlogFormData) {
   return (
-    <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-semibold">
+    <div className="h-auto w-full space-y-7 rounded-md p-8 text-black [&_input]:ring-offset-black [&_input]:focus-within:ring-0 [&_input]:focus-within:ring-black [&_input]:focus-visible:ring-0 [&_label]:font-mono [&_textarea]:max-w-full  [&_textarea]:rounded-sm   [&_textarea]:bg-white/80 [&_textarea]:font-mono [&_textarea]:font-bold [&_textarea]:placeholder:font-medium">
       <div className="space-y-3">
         <Label htmlFor="title_blog" className="text-lg font-bold capitalize  ">
           Title for your blog <em>(required)</em>
@@ -147,7 +147,7 @@ export default function Blog_Form_box({
           {() => <MyDropzone setThumbImg={setThumbImg}></MyDropzone>}
         </ClientOnly>
         {thumbImg === undefined ? (
-          <p className="font-bold italic">No Image found</p>
+          <p className="font-bold italic">No Image found Or no Image added yet</p>
         ) : null}
         {thumbImg && (
           <div className="relative">

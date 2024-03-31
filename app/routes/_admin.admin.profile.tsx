@@ -50,6 +50,7 @@ export default function Admin_Profile() {
         <div className="">
           <h1 className="text-xl font-bold">{name ?? "Not found"}</h1>
           <h2>{email ?? "Not found"}</h2>
+          <h2>{id ?? "Not found"}</h2>
           <p>{bio ?? "Not found"}</p>
           <p>Update Password</p>
           <p>{password}</p>

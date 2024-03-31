@@ -77,14 +77,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function Admin_Posts() {
   const userLoaderData = useLoaderData<typeof loader>();
-
   const blogsFromdb = userLoaderData.data;
-  // console.log("🚀 ~ Admin_Posts ~ userLoaderData:", blogsFromdb);
   let blogs: Blog_Posts[] = [];
   if (typeof blogsFromdb === "object") {
     blogsFromdb.forEach((x) => {
       return blogs.push({
-        author: x.author.name!,
+        author: x.author.name ? x.author.name : "Name was not given",
         id: x.id,
         title: x.title,
         status: x.published ? "Visible" : "Hidden",

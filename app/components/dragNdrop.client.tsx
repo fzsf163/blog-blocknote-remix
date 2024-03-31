@@ -9,11 +9,9 @@ type Data = {
 export default function MyDropzone({ setThumbImg }: Data) {
   const { images, isUploading, submit } = useFileUpload();
   const onDrop = useCallback((acceptedFiles: any) => {
-    console.log("🚀 ~ onDrop ~ acceptedFiles:", acceptedFiles);
 
     // Do something with the files
     acceptedFiles.forEach((file: Blob) => {
-      console.log("🚀 ~ acceptedFiles.forEach ~ file:", file);
       // const reader = new FileReader();
       // reader.onabort = () => console.log("file reading was aborted");
       // reader.onerror = () => console.log("file reading has failed");

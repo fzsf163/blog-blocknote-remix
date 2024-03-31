@@ -103,7 +103,7 @@ export const columns: ColumnDef<Blog_Posts>[] = [
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "desc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="text-white"
         >
           Title

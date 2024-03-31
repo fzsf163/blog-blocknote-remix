@@ -54,7 +54,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     hour: "numeric",
     minute: "numeric",
   });
-  console.log("🚀 ~ action ~ date:", date);
   if (k) {
     try {
       await db.post.create({
@@ -150,7 +149,7 @@ export default function Admin_Posts_Create() {
               setCategory={setCategory}
               setData={setData}
               setThumbImg={setThumbImg}
-              thumbImg={thumbImg}
+              thumbImg={thumbImg ?? ""}
               method="POST"
               fetcher={fetcher}
               resetData={resteData}
