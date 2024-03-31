@@ -9,6 +9,7 @@ import { db } from "~/utils/db.server";
 import Blog_Form_box from "~/components/blog_create_form";
 import { Toaster } from "~/components/ui/toaster";
 import { useToast } from "~/components/ui/use-toast";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 
 export const meta: MetaFunction = () => {
   return [
@@ -124,21 +125,39 @@ export default function Admin_Posts_Create() {
     <div className="  h-[100dvh] w-[1250px]  ">
       <h1 className="mb-2 font-mono text-2xl font-bold ">Make a Post</h1>
       <hr />
-      <Blog_Form_box
-        blogData={blogData}
-        category={category}
-        data={data}
-        setBlogData={setBlogData}
-        setCategory={setCategory}
-        setData={setData}
-        setThumbImg={setThumbImg}
-        thumbImg={thumbImg}
-        method="POST"
-        fetcher={fetcher}
-        resetData={resteData}
-        setHTML={setHTML}
-        html={html}
-      ></Blog_Form_box>
+
+      <Tabs defaultValue="postmaker" className="mt-5 w-full">
+        <TabsList className="float-right mr-10">
+          <TabsTrigger value="postmaker">POST</TabsTrigger>
+          <TabsTrigger value="preview">PREVIEW</TabsTrigger>
+        </TabsList>
+        <TabsContent value="postmaker">
+          <Blog_Form_box
+            blogData={blogData}
+            category={category}
+            data={data}
+            setBlogData={setBlogData}
+            setCategory={setCategory}
+            setData={setData}
+            setThumbImg={setThumbImg}
+            thumbImg={thumbImg}
+            method="POST"
+            fetcher={fetcher}
+            resetData={resteData}
+            setHTML={setHTML}
+            html={html}
+          ></Blog_Form_box>
+        </TabsContent>
+        <TabsContent value="preview">
+          {" "}
+          <div
+            id="blog-post-html"
+            className="prose  w-full border"
+            dangerouslySetInnerHTML={{ __html: html! }}
+          />
+        </TabsContent>
+      </Tabs>
+
       <Toaster />
     </div>
   );

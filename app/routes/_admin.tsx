@@ -66,36 +66,21 @@ export default function Admin_Layout() {
       >
         {admin_routes.map((ar) => {
           return (
-            <NavLink key={ar.label} to={ar.href} className={""}>
-              {({ isActive, isPending }) =>
-                !show ? (
-                  <Button
-                    variant={"outline"}
-                    className={
-                      isPending
-                        ? "bg-blue-400"
-                        : isActive
-                          ? " border-none bg-slate-400  font-bold text-white   hover:bg-green-600 hover:text-white"
-                          : "w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-600 hover:font-semibold  hover:text-white"
-                    }
-                  >
-                    {ar.icon}
-                  </Button>
-                ) : (
-                  <Button
-                    variant={"outline"}
-                    className={
-                      isPending
-                        ? "bg-blue-400"
-                        : isActive
-                          ? " border-none bg-slate-400  font-bold text-white   hover:bg-green-600 hover:text-white"
-                          : "w-fit border-black bg-transparent text-black/50 hover:border-none hover:bg-green-600 hover:font-semibold hover:text-white"
-                    }
-                  >
-                    {ar.label}
-                  </Button>
-                )
-              }
+            <NavLink key={ar.label + ar.href} to={ar.href} className={""}>
+              {({ isActive, isPending }) => (
+                <Button
+                  variant={"outline"}
+                  className={
+                    isPending
+                      ? "bg-blue-400"
+                      : isActive
+                        ? " border-none bg-slate-400  font-bold text-white   hover:bg-green-600 hover:text-white"
+                        : "w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-600 hover:font-semibold  hover:text-white"
+                  }
+                >
+                  {show ? ar.label : ar.icon}
+                </Button>
+              )}
             </NavLink>
           );
         })}

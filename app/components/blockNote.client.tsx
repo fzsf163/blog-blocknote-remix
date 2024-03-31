@@ -73,19 +73,19 @@ export default function EditorBlockNote({
     // editable: false,
   });
 
-  let replacHTML = html?.replace("class", "className");
-  console.log("🚀 ~ EditorBlockNote ~ replacHTML:", replacHTML);
+  // let replacHTML = html?.replace("class", "className");
+  // console.log("🚀 ~ EditorBlockNote ~ replacHTML:", replacHTML);
   // Renders the editor instance using a React component.
   return (
     <div>
       <BlockNoteView editor={editor}></BlockNoteView>
-      <pre className="w-[800px] overflow-scroll break-words">{html}</pre>
+      {/* <pre className="w-[800px] overflow-scroll break-words">{html}</pre> */}
 
-      <div
+      {/* <div
         id="blog-post-html"
         className="prose  w-full border"
         dangerouslySetInnerHTML={{ __html: html! }}
-      />
+      /> */}
     </div>
   );
 }

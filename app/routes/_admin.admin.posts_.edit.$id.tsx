@@ -17,7 +17,7 @@ import { db } from "~/utils/db.server";
 import { requireUserSession } from "~/utils/session.server";
 import { toast } from "~/components/ui/use-toast";
 import { Toaster } from "~/components/ui/toaster";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 export const meta: MetaFunction = () => {
   return [
     { title: "admin/posts page" },
@@ -113,7 +113,7 @@ export default function Admin_Posts_Edit_One() {
   const post = useLoaderData<typeof loader>();
   const fetcher = useFetcher();
   const d: submission = fetcher.data;
-  console.log("🚀 ~ Admin_Posts_Edit_One ~ d:", d);
+  const [html, setHTML] = useState<string | undefined>("");
 
   const [data, setData] = useState<string | undefined>("");
   const [thumbImg, setThumbImg] = useState<string>("");
@@ -176,19 +176,38 @@ export default function Admin_Posts_Edit_One() {
         Edit a Post
       </h1>
       <hr />
-      <Blog_Form_box
-        blogData={blogData}
-        category={category}
-        data={data}
-        setBlogData={setBlogData}
-        setCategory={setCategory}
-        setData={setData}
-        setThumbImg={setThumbImg}
-        thumbImg={thumbImg === undefined ? thumb : thumbImg}
-        method="PATCH"
-        fetcher={fetcher}
-        resetData={resteData}
-      ></Blog_Form_box>
+      <Tabs defaultValue="postmaker" className="mt-5 w-full">
+        <TabsList className="float-right mr-10">
+          <TabsTrigger value="postmaker">POST</TabsTrigger>
+          <TabsTrigger value="preview">PREVIEW</TabsTrigger>
+        </TabsList>
+        <TabsContent value="postmaker">
+          <Blog_Form_box
+            blogData={blogData}
+            category={category}
+            data={data}
+            setBlogData={setBlogData}
+            setCategory={setCategory}
+            setData={setData}
+            setThumbImg={setThumbImg}
+            thumbImg={thumbImg === undefined ? thumb : thumbImg}
+            method="POST"
+            fetcher={fetcher}
+            resetData={resteData}
+            setHTML={setHTML}
+            html={html}
+          ></Blog_Form_box>
+        </TabsContent>
+        <TabsContent value="preview">
+          {" "}
+          <div
+            id="blog-post-html"
+            className="prose  w-full border"
+            dangerouslySetInnerHTML={{ __html: html! }}
+          />
+        </TabsContent>
+      </Tabs>
+
       <Toaster />
     </div>
   );

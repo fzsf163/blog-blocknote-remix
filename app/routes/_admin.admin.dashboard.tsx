@@ -273,7 +273,7 @@ export default function Admin_Posts() {
                   <Blog_Card
                     name={x.title}
                     time={x.createdAt}
-                    key={x.createdAt}
+                    key={x.title + x.createdAt}
                   ></Blog_Card>
                 );
               })}
