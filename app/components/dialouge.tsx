@@ -9,11 +9,13 @@ import {
 import SearchBOX from "./searchbox";
 import { Link, useFetcher } from "@remix-run/react";
 
+
 export default function Dialuge() {
   const fetcher = useFetcher();
   const data = fetcher.data;
+
   return (
-    <div>
+    <div >
       <Dialog>
         <DialogTrigger>
           {" "}
@@ -60,7 +62,7 @@ export default function Dialuge() {
             <DialogTitle className="font-mono text-black/40">
               Looking for something?
             </DialogTitle>
-            <fetcher.Form action="/search" method="get">
+            <fetcher.Form action="/api/search" method="get">
               <SearchBOX fetcher={fetcher}></SearchBOX>
             </fetcher.Form>
           </DialogHeader>

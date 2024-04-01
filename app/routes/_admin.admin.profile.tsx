@@ -2,23 +2,13 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { Edit, Image } from "lucide-react";
+import { Image } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Button } from "~/components/ui/button";
 
-import { authenticator } from "~/utils/auth.server";
 import { db } from "~/utils/db.server";
 import { requireUserSession } from "~/utils/session.server";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
-import { Label } from "~/components/ui/label";
+import Profile_Dialoge from "~/components/ProfileDialoge";
+import { ClientOnly } from "remix-utils/client-only";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await requireUserSession(request);
@@ -61,7 +51,7 @@ type user = {
 export default function Admin_Profile() {
   const data = useLoaderData<typeof loader>();
   const [show, setShow] = useState(false);
-  const [edit, setEdit] = useState(false);
+
   const fetcher = useFetcher();
   //@ts-ignore
   const imgUrl = fetcher.data?.file?.url;
@@ -92,7 +82,7 @@ export default function Admin_Profile() {
           {image ? (
             <img
               src={image!}
-              className="h-[250px]  lg:w-full rounded object-cover"
+              className="h-[250px]  rounded object-cover lg:w-full"
             ></img>
           ) : (
             <p className="h-full rounded bg-slate-600 pt-24 text-center font-mono font-bold text-white">
@@ -130,58 +120,27 @@ export default function Admin_Profile() {
               Personal Details
             </h1>
             <div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    {" "}
-                    <Edit
-                      className={
-                        edit
-                          ? "cursor-pointer text-blue-400"
-                          : "cursor-pointer text-black"
-                      }
-                      onClick={() => setEdit(!edit)}
-                    ></Edit>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Edit Profile</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+            <ClientOnly fallback={<p>Loading...</p>}>
+                {() => <Profile_Dialoge></Profile_Dialoge>}
+              </ClientOnly>
             </div>
           </div>
 
           <p className="font-serif text-sm italic">Name</p>
           <h1 className="text-3xl font-bold">{name ?? "Not found"}</h1>
-          {edit && <Input type="text" placeholder="Update Name..."></Input>}
+
           <p className="font-serif text-sm italic">Email</p>
           <h2 className="text-xl font-bold">{email ?? "Not found"}</h2>
-          {edit && <Input type="text" placeholder="Update Email..."></Input>}
+
           <p className="font-serif text-sm italic">Author ID</p>
           <h2 className="text-xl font-bold">{id ?? "Not found"}</h2>
           <p className="font-serif text-sm italic">Bio</p>
           <p className="text-xl font-bold">{bio ?? "Not found"}</p>
-          {edit && <Textarea placeholder="Update Bio..."></Textarea>}
-          {edit && (
-            <div className="space-y-2">
-              <Label htmlFor="passUp">Update Password</Label>
-              <Input
-                name="passUp"
-                type="password"
-                placeholder="Update Password..."
-              ></Input>
-            </div>
-          )}
+
           {/* <p className="font-serif text-sm italic">Update Password</p>
           <p className="text-xl font-bold">{password ? "********":null}</p> */}
         </div>
       </div>
-      {edit && (
-        <div className="mt-5 space-x-3">
-          <Button>Save</Button>
-          <Button onClick={() => setEdit(false)}>Cancel</Button>
-        </div>
-      )}
     </div>
   );
 }
