@@ -2,7 +2,7 @@ import type { ActionFunctionArgs } from "@remix-run/node";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { Image } from "lucide-react";
+import { ALargeSmall, Contact, Image, Mail, ScanEye } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { db } from "~/utils/db.server";
@@ -127,19 +127,43 @@ export default function Admin_Profile() {
               </ClientOnly>
             </div>
           </div>
-          <div className=" [&_p]:text-md [&_p]:rounded-md [&_p]:p-3 [&_p]:font-serif [&_p]:font-light [&_p]:text-black [&_p]:underline [&_p]:underline-offset-4 ">
-            <p>Bio</p>
-            <h3 className="px-4 text-center text-xl font-medium">
-              {bio ?? "Not found"}
-            </h3>
-            <p>Name</p>
-            <h1 className="px-4 text-xl font-medium">{name ?? "Not found"}</h1>
+          <div className=" [&_p]:text-md space-y-8 [&_p]:rounded-md [&_p]:p-3 [&_p]:font-serif [&_p]:font-light [&_p]:underline [&_p]:underline-offset-4">
+            <div className="flex items-center justify-start gap-10">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600">
+                <Contact className="text-green-700"></Contact> Bio
+              </p>
+              <h3 className="rounded bg-transparent  px-4  py-3 text-center font-normal  shadow-md  shadow-blue-900 sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+                {bio ?? "Not found"}
+              </h3>
+            </div>
+            <div className="flex items-center justify-start gap-10">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600">
+                <ALargeSmall className="text-green-700"></ALargeSmall> Name
+              </p>
+              <h1 className="rounded px-4  py-3  text-xl  font-normal  shadow-md shadow-blue-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
+                {name ?? "Not found"}
+              </h1>
+            </div>
 
-            <p>Email</p>
-            <h2 className="px-4 text-xl font-medium">{email ?? "Not found"}</h2>
+            <div className="flex items-center justify-start gap-10">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600">
+                {" "}
+                <Mail className="text-green-700"></Mail> Email
+              </p>
+              <h2 className="rounded px-4  py-3  text-xl  font-normal  shadow-md shadow-blue-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
+                {email ?? "Not found"}
+              </h2>
+            </div>
 
-            <p>Author ID</p>
-            <h2 className="px-4 text-xl font-medium">{id ?? "Not found"}</h2>
+            <div className="flex items-center justify-start gap-10">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600 ">
+                {" "}
+                <ScanEye className="text-green-700"></ScanEye> Author ID
+              </p>
+              <h2 className="rounded px-4   py-3  text-xl  font-normal  shadow-md shadow-blue-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
+                {id ?? "Not found"}
+              </h2>
+            </div>
           </div>
         </div>
       </div>
