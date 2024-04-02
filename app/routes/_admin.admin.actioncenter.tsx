@@ -19,6 +19,7 @@ export default function Action_Center() {
         <h1>Featured post</h1>
         <h1>Trending post</h1>
         <h1>Comments</h1>
+        <h1>Author Page</h1>
       </div>
     </div>
   );

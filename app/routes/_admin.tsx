@@ -103,7 +103,7 @@ export default function Admin_Layout() {
             </Form>
           </div>
         </header>
-        <ScrollArea className="h-[90dvh]" type="scroll">
+        <ScrollArea className="h-[90dvh] w-full px-10 py-5" type="scroll">
           <Outlet></Outlet>
         </ScrollArea>
       </div>

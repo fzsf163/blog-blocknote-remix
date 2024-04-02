@@ -27,16 +27,18 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const user = await request.json();
-  try {
-    await db.user.update({
-      data: {
-        image: user?.imageForProfile,
-      },
-      where: {
-        id: user?.id,
-      },
-    });
-  } catch (error) {}
+  if (user) {
+    try {
+      await db.user.update({
+        data: {
+          image: user?.imageForProfile,
+        },
+        where: {
+          id: user?.id,
+        },
+      });
+    } catch (error) {}
+  }
   return { status: "Ok" };
 };
 
@@ -70,11 +72,11 @@ export default function Admin_Profile() {
     }
   }, [imgUrl]);
   return (
-    <div className="w-[1250px] px-3 py-5">
+    <div className="w-[100%] px-3 py-5">
       <h1 className=" text-left font-mono text-xl font-bold">Profile </h1>
       <div className="flex flex-col items-start justify-center gap-4">
         <div
-          className="relative h-[250px] w-full rounded border "
+          className="relative h-[350px] w-full rounded border"
           ref={parent}
           onMouseEnter={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
@@ -82,7 +84,7 @@ export default function Admin_Profile() {
           {image ? (
             <img
               src={image!}
-              className="h-[250px]  rounded object-cover lg:w-full"
+              className="h-[350px]  w-full rounded object-cover "
             ></img>
           ) : (
             <p className="h-full rounded bg-slate-600 pt-24 text-center font-mono font-bold text-white">
@@ -97,7 +99,7 @@ export default function Admin_Profile() {
                 <input
                   type="file"
                   name="myImage"
-                  accept="image/png, image/gif, image/jpeg"
+                  accept="image/*"
                   hidden
                   onChange={(x) => {
                     const formData = new FormData();
@@ -114,31 +116,31 @@ export default function Admin_Profile() {
             </div>
           )}
         </div>
-        <div className="space-y-3" ref={parent}>
+        <div className="w-full space-y-3" ref={parent}>
           <div className="flex items-center justify-start gap-2">
             <h1 className="font-mono text-lg font-semibold">
               Personal Details
             </h1>
             <div>
-            <ClientOnly fallback={<p>Loading...</p>}>
-                {() => <Profile_Dialoge></Profile_Dialoge>}
+              <ClientOnly fallback={<p>Loading...</p>}>
+                {() => <Profile_Dialoge id={id}></Profile_Dialoge>}
               </ClientOnly>
             </div>
           </div>
+          <div className=" [&_p]:text-md [&_p]:rounded-md [&_p]:p-3 [&_p]:font-serif [&_p]:font-light [&_p]:text-black [&_p]:underline [&_p]:underline-offset-4 ">
+            <p>Bio</p>
+            <h3 className="px-4 text-center text-xl font-medium">
+              {bio ?? "Not found"}
+            </h3>
+            <p>Name</p>
+            <h1 className="px-4 text-xl font-medium">{name ?? "Not found"}</h1>
 
-          <p className="font-serif text-sm italic">Name</p>
-          <h1 className="text-3xl font-bold">{name ?? "Not found"}</h1>
+            <p>Email</p>
+            <h2 className="px-4 text-xl font-medium">{email ?? "Not found"}</h2>
 
-          <p className="font-serif text-sm italic">Email</p>
-          <h2 className="text-xl font-bold">{email ?? "Not found"}</h2>
-
-          <p className="font-serif text-sm italic">Author ID</p>
-          <h2 className="text-xl font-bold">{id ?? "Not found"}</h2>
-          <p className="font-serif text-sm italic">Bio</p>
-          <p className="text-xl font-bold">{bio ?? "Not found"}</p>
-
-          {/* <p className="font-serif text-sm italic">Update Password</p>
-          <p className="text-xl font-bold">{password ? "********":null}</p> */}
+            <p>Author ID</p>
+            <h2 className="px-4 text-xl font-medium">{id ?? "Not found"}</h2>
+          </div>
         </div>
       </div>
     </div>
