@@ -154,7 +154,7 @@ export default function Admin_Posts() {
     { name: "Blog11", views: 37, comments: 291 },
   ];
   return (
-    <div className="w-[1500px] px-2 py-3">
+    <div className="w-[100%] px-2 py-3">
       <div className="m-5 flex items-center justify-between">
         <h1 className="text-xl font-bold capitalize">
           Welcome to Dashborad
@@ -220,7 +220,7 @@ export default function Admin_Posts() {
       <br />
       <br />
       {/* charts begin  here */}
-      <div className="flex items-center justify-start gap-6">
+      <div className="flex items-center justify-center gap-6 border">
         <ClientOnly>
           {() => (
             <AreaChart
