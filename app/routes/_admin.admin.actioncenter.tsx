@@ -13,32 +13,34 @@ import {
   SheetTrigger,
 } from "~/components/ui/sheet";
 import { db } from "~/utils/db.server";
-import { Cross } from "lucide-react";
+import { Cross, Search } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import React from "react";
+import React, { forwardRef } from "react";
+import { useLoaderData } from "@remix-run/react";
+import { ClientOnly } from "remix-utils/client-only";
+import SearchBOX from "~/components/searchbox";
 
-type HOVERSUB = {
-  HoverSub: React.ReactNode;
-  HoverTEXT: string;
-};
-
-const HoverComponent = ({ HoverSub, HoverTEXT }: HOVERSUB) => {
+const HoverComponent = forwardRef(function HoverComponent(
+  props: { HoverSub: React.ReactNode; HoverTEXT: string },
+  ref: React.LegacyRef<HTMLDivElement> | undefined,
+) {
+  const { HoverSub, HoverTEXT } = props;
   return (
     <TooltipProvider>
       <Tooltip delayDuration={10}>
         <TooltipTrigger>{HoverSub}</TooltipTrigger>
-        <TooltipContent>
+        <TooltipContent ref={ref!}>
           <p>{HoverTEXT}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );
-};
+});
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await requireUserSession(request);
@@ -87,26 +89,18 @@ const FancyButton = ({ text }: ParamForButton) => {
   );
 };
 export default function Action_Center() {
+  const loaderData = useLoaderData<typeof loader>();
+  console.log("🚀 ~ FancyButton ~ loaderData:", loaderData);
   return (
     <div className="py-3">
       <p className="text-sm italic">
         Welcome to{" "}
-        <span className="rounded-full bg-green-800 px-4  py-3 font-mono text-white underline underline-offset-8">
+        <span className="rounded-full bg-[#7c656a]/60 px-6  py-2 font-sans text-white underline underline-offset-2 not-italic font-semibold drop-shadow-lg cursor-pointer">
           Action Center
         </span>
       </p>
-      {/* <div
-        ref={parent}
-        className="mt-10 flex items-center justify-center gap-10"
-      >
-        <FancyButton text="Slider"></FancyButton>
-        <FancyButton text="Featured"></FancyButton>
-        <FancyButton text="Trending"></FancyButton>
-        <FancyButton text="Comments"></FancyButton>
-        <FancyButton text="Author"></FancyButton>
-      </div> */}
       <Tabs defaultValue="slider" className="mt-10 min-w-full">
-        <TabsList className="h-auto w-full bg-slate-500 p-4 text-white ">
+        <TabsList className="h-auto w-full bg-[#7c656a]/60 p-4 text-white ">
           <TabsTrigger
             value="slider"
             className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
@@ -145,23 +139,36 @@ export default function Action_Center() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="slider">
-          <Sheet>
-            <SheetTrigger>
-              <HoverComponent
-                HoverSub={<Cross></Cross>}
-                HoverTEXT="Add To Slider"
-              ></HoverComponent>
-            </SheetTrigger>
-            <SheetContent side={"top"}>
-              <SheetHeader>
-                <SheetTitle>Are you absolutely sure?</SheetTitle>
-                <SheetDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
-                </SheetDescription>
-              </SheetHeader>
-            </SheetContent>
-          </Sheet>
+          {/* this is the add button */}
+          <div className="flex items-center justify-start gap-3">
+            <div>
+              <h1 className="font-serif text-lg font-semibold text-[#7c656a]">
+                Add to Slider
+              </h1>
+            </div>
+            <ClientOnly>
+              {() => (
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <HoverComponent
+                      HoverSub={<Cross></Cross>}
+                      HoverTEXT="Add to Slider"
+                    ></HoverComponent>
+                  </SheetTrigger>
+                  <SheetContent side={"top"}>
+                    <SheetHeader>
+                      <SheetTitle>Are you absolutely sure?</SheetTitle>
+                      <SheetDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+              )}
+            </ClientOnly>
+          </div>
 
           <div className="m-10 h-[254px] w-[190px] rounded-[30px] bg-[#e0e0e0] shadow-[15px_15px_30px_#bebebe,-15px_-15px_30px_#ffffff]"></div>
         </TabsContent>
