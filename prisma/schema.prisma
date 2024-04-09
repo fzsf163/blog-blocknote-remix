@@ -29,13 +29,14 @@ model Post {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  email    String  @unique
-  password String
-  name     String?
-  image    String?
-  posts    Post[]
-  bio      String?
+  id         String  @id @default(uuid())
+  email      String  @unique
+  password   String
+  name       String?
+  image      String?
+  posts      Post[]
+  bio        String?
+  authorPage String?
 }
 
 model Subscribers {
@@ -68,4 +69,11 @@ model Slider {
 model FeaturedBlogs {
   id       String @id @default(uuid())
   contents String
+}
+
+model RequestedTopics {
+  id               String @id @default(uuid())
+  requestedTopic   String
+  requesterName    String
+  requesterContact String
 }

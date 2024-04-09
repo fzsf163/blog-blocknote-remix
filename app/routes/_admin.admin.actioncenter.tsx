@@ -4,14 +4,72 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { authenticator } from "~/utils/auth.server";
 import { requireUserSession } from "~/utils/session.server";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/components/ui/sheet";
+import { db } from "~/utils/db.server";
+import { Cross } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import React from "react";
+
+type HOVERSUB = {
+  HoverSub: React.ReactNode;
+  HoverTEXT: string;
+};
+
+const HoverComponent = ({ HoverSub, HoverTEXT }: HOVERSUB) => {
+  return (
+    <TooltipProvider>
+      <Tooltip delayDuration={10}>
+        <TooltipTrigger>{HoverSub}</TooltipTrigger>
+        <TooltipContent>
+          <p>{HoverTEXT}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+};
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const session = await requireUserSession(request);
+  const userID = session?.data?.sessionKey?.userID;
+
   // return json({ login: session });
   // await authenticator.isAuthenticated(request, {
   //   failureRedirect: "/admin",
   // });
-  return { userActionCenter: "ok" };
+  const posts = await db.post.findMany({
+    where: {
+      published: true,
+    },
+  });
+  const comments = await db.comments.findMany();
+  const slider = await db.slider.findMany();
+  const featured = await db.featuredBlogs.findMany();
+  const authorPage = await db.user.findFirst({
+    where: {
+      id: userID,
+    },
+    select: {
+      authorPage: true,
+    },
+  });
+
+  const requestedTopics = await db.requestedTopics.findMany();
+
+  return {
+    data: { posts, comments, slider, featured, authorPage, requestedTopics },
+  };
 };
 type ParamForButton = {
   text: string;
@@ -51,42 +109,70 @@ export default function Action_Center() {
         <TabsList className="h-auto w-full bg-slate-500 p-4 text-white ">
           <TabsTrigger
             value="slider"
-            className="rounded-full px-6 py-2 m:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
+            className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
           >
             Slider
           </TabsTrigger>
           <TabsTrigger
             value="featured"
-            className="rounded-full px-6 py-2 m:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
+            className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
           >
             Featured
           </TabsTrigger>
           <TabsTrigger
             value="trending"
-            className="rounded-full px-6 py-2 m:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
+            className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
           >
             Trending
           </TabsTrigger>
           <TabsTrigger
             value="comments"
-            className="rounded-full px-6 py-2 m:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
+            className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
           >
             Comments
           </TabsTrigger>
           <TabsTrigger
             value="author"
-            className="rounded-full px-6 py-2 m:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
+            className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
           >
             Author
           </TabsTrigger>
+          <TabsTrigger
+            value="reqTopic"
+            className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
+          >
+            Requested Topics
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="slider">
-          Make changes to your account here.
+          <Sheet>
+            <SheetTrigger>
+              <HoverComponent
+                HoverSub={<Cross></Cross>}
+                HoverTEXT="Add To Slider"
+              ></HoverComponent>
+            </SheetTrigger>
+            <SheetContent side={"top"}>
+              <SheetHeader>
+                <SheetTitle>Are you absolutely sure?</SheetTitle>
+                <SheetDescription>
+                  This action cannot be undone. This will permanently delete
+                  your account and remove your data from our servers.
+                </SheetDescription>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+
+          <div className="m-10 h-[254px] w-[190px] rounded-[30px] bg-[#e0e0e0] shadow-[15px_15px_30px_#bebebe,-15px_-15px_30px_#ffffff]"></div>
         </TabsContent>
-        <TabsContent value="featured">Change your password here.</TabsContent>
-        <TabsContent value="trending">Change your password here.</TabsContent>
-        <TabsContent value="comments">Change your password here.</TabsContent>
-        <TabsContent value="author">Change your password here.</TabsContent>
+        <TabsContent value="featured">Feature the GOATS</TabsContent>
+        <TabsContent value="trending">Go somethign trendy.</TabsContent>
+        <TabsContent value="comments">JUST CHILL COMMENTS</TabsContent>
+        <TabsContent value="author">
+          {" "}
+          Once More BlockNote.Full View MOOD GOOOOO!!!
+        </TabsContent>
+        <TabsContent value="reqTopic">GET THE TOPICS</TabsContent>
       </Tabs>
     </div>
   );
