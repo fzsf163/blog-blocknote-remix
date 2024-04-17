@@ -155,7 +155,7 @@ export default function Admin_Posts() {
   ];
   return (
     <div className="w-[100%] px-2 py-3">
-      <div className="m-5 flex items-center justify-between">
+      <div className="m-5 flex flex-1 items-center justify-between">
         <h1 className="text-xl font-bold capitalize">
           Welcome to Dashborad
           <span className="bg-gradient-to-r from-green-900 via-yellow-900 to-fuchsia-900 bg-clip-text text-transparent">
@@ -173,35 +173,38 @@ export default function Admin_Posts() {
         />
       </div>
       {/* card boxes for stat */}
-      <div ref={parent} className="grid grid-cols-2 gap-5">
+      <div
+        ref={parent}
+        className="flex flex-initial flex-shrink flex-col flex-wrap items-center justify-center gap-5 md:flex-col lg:flex-col xl:flex-row"
+      >
         <Stat_Box
           key={"subss"}
           count={c_s}
-          emoji="💖"
+          bgImage="'/assests/d-1.jpg'"
           title_text="Subscribers"
         ></Stat_Box>
         <Stat_Box
           key={"readeerrs"}
           count={3000}
-          emoji="😘"
+          bgImage="'/assests/d-2.jpg'"
           title_text="Readers"
         ></Stat_Box>
         <Stat_Box
           key={"blogsss"}
           count={c_p}
-          emoji="🌸"
+          bgImage="'/assests/d-3.jpg'"
           title_text="Blogs"
         ></Stat_Box>
         <Stat_Box
           key={"pageeeess"}
           count={c_p}
-          emoji="🥲"
+          bgImage="'/assests/d-4.jpg'"
           title_text="Pages"
         ></Stat_Box>
         <Stat_Box
           key={"comeeenasnashj"}
           count={c_c}
-          emoji="📖"
+          bgImage="'/assests/d-5.jpg'"
           title_text="Comments"
         ></Stat_Box>
         {/* <Stat_Box
@@ -231,12 +234,12 @@ export default function Admin_Posts() {
             >
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#9894e8" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#8132CD" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#7ECD32" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#DF2082" stopOpacity={0.8} />
+                  <stop offset="95%" stopColor="#20DF7D" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <XAxis dataKey="name" />

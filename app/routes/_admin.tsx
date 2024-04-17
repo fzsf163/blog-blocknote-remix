@@ -54,12 +54,12 @@ const admin_routes = [
 
 export default function Admin_Layout() {
   const [show, setShow] = useState<boolean>(false);
-  const [parent] = useAutoAnimate(/* optional config */);
-  useEffect(() => {}, [show]);
+  const [parent] = useAutoAnimate();
+  // useEffect(() => {}, [show]);
   return (
     <div className=" flex h-[100dvh] items-start justify-start bg-slate-300">
       <aside
-        className="  flex h-full w-[83px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-200 ease-in-out hover:w-[280px] "
+        className="  flex h-full w-[83px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-300 ease-in-out hover:w-[280px] "
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
         ref={parent}
@@ -67,16 +67,18 @@ export default function Admin_Layout() {
         {admin_routes.map((ar) => {
           return (
             <NavLink key={ar.label + ar.href} to={ar.href} className={""}>
-              {({ isActive, isPending }) => (
+              {({ isActive, isPending, isTransitioning }) => (
                 <Button
                   variant={"outline"}
-                  className={
-                    isPending
-                      ? "bg-blue-400"
-                      : isActive
-                        ? `${show ? "w-[150px] border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white" : " border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white"}`
-                        : `${show ? "w-[150px] border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white":"w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white"}`
-                  }
+                  className={`transition-all duration-200 ease-in-out animate-out ${
+                    isTransitioning
+                      ? "bg-green-400 transition-all duration-500 ease-in-out"
+                      : isPending
+                        ? "bg-blue-400"
+                        : isActive
+                          ? `${show ? "w-[150px] border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white" : " border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white "}`
+                          : `${show ? "w-[150px] border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white" : "w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white"}`
+                  }`}
                 >
                   {show ? ar.label : ar.icon}
                 </Button>
