@@ -207,18 +207,6 @@ export default function Admin_Posts() {
           bgImage="'/assests/d-5.jpg'"
           title_text="Comments"
         ></Stat_Box>
-        {/* <Stat_Box
-          key={"carageggeeg"}
-          count={100}
-          emoji="🎃"
-          title_text="Categories"
-        ></Stat_Box> */}
-        {/* <Stat_Box
-          key={"keyeiwowods"}
-          count={500}
-          emoji="🔑"
-          title_text="Keywords"
-        ></Stat_Box> */}
       </div>
       <br />
       <br />
