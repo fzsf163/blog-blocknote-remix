@@ -156,7 +156,7 @@ export default function Admin_Posts() {
   ];
   return (
     <div className="w-[100%] px-2 py-3">
-      <div className="m-5 flex flex-1 items-center justify-between">
+      <div className="m-5 flex flex-1 items-center justify-between flex-col  sm:flex-col md:flex-col lg:flex-row">
         <h1 className="text-xl font-bold capitalize">
           Welcome to Dashborad
           <span className="bg-gradient-to-r from-green-900 via-yellow-900 to-fuchsia-900 bg-clip-text text-transparent">
@@ -176,7 +176,7 @@ export default function Admin_Posts() {
       {/* card boxes for stat */}
       <div
         ref={parent}
-        className="flex flex-initial flex-shrink flex-col flex-wrap items-center justify-center gap-5 md:flex-col lg:flex-col xl:flex-row"
+        className="flex  flex-shrink flex-wrap items-center justify-center gap-5"
       >
         <Stat_Box
           key={"subss"}
@@ -215,41 +215,41 @@ export default function Admin_Posts() {
       <div className="flex flex-wrap-reverse items-center justify-center gap-6">
         <ClientOnly>
           {() => (
-            <AreaChart
-              width={1000}
-              height={650}
-              data={blogView}
-              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-            >
-              <defs>
-                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8132CD" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#7ECD32" stopOpacity={0} />
-                </linearGradient>
-                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#DF2082" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#20DF7D" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <XAxis dataKey="name" />
-              <YAxis />
-              <CartesianGrid strokeDasharray="3 3" />
-              <Tooltip />
-              <Area
-                type="monotone"
-                dataKey="views"
-                stroke="#8884d8"
-                fillOpacity={1}
-                fill="url(#colorUv)"
-              />
-              <Area
-                type="monotone"
-                dataKey="comments"
-                stroke="#82ca9d"
-                fillOpacity={1}
-                fill="url(#colorPv)"
-              />
-            </AreaChart>
+            <ResponsiveContainer width={"100%"} height={550}>
+              <AreaChart
+                data={blogView}
+                margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              >
+                <defs>
+                  <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#8132CD" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#7ECD32" stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#DF2082" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#20DF7D" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="name" />
+                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" />
+                <Tooltip />
+                <Area
+                  type="monotone"
+                  dataKey="views"
+                  stroke="#8884d8"
+                  fillOpacity={1}
+                  fill="url(#colorUv)"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="comments"
+                  stroke="#82ca9d"
+                  fillOpacity={1}
+                  fill="url(#colorPv)"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           )}
         </ClientOnly>
         <div className="w-full bg-black/5">

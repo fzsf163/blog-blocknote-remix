@@ -59,7 +59,7 @@ export default function Admin_Layout() {
   return (
     <div className=" flex h-[100dvh] items-start justify-start bg-slate-300">
       <aside
-        className="  flex h-full w-[85px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-300 ease-in-out hover:w-[280px] "
+        className="hidden h-full  w-[85px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-300 ease-in-out hover:w-[280px] sm:hidden md:hidden lg:flex"
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
         // ref={parent}
@@ -97,9 +97,12 @@ export default function Admin_Layout() {
                         transition: "all",
                         transitionDuration: "0.3s",
                         transitionTimingFunction: "ease-in-out",
-                    
                       }}
-                      className={show ? "w-[100px] opacity-100" : "w-0 opacity-0 overflow-hidden"}
+                      className={
+                        show
+                          ? "w-[100px] opacity-100"
+                          : "w-0 overflow-hidden opacity-0"
+                      }
                     >
                       {ar.label}
                     </span>
@@ -111,14 +114,14 @@ export default function Admin_Layout() {
         })}
       </aside>
       <div className=" flex w-full flex-col  items-center justify-center">
-        <header className="flex h-[5rem] w-[70%] items-center justify-between  px-5">
+        <header className="hidden h-[5rem] w-[70%] items-center justify-between px-5 sm:hidden md:hidden lg:flex">
           <h1 className=" w-fit bg-gradient-to-r from-pink-600 via-yellow-600 to-blue-700 bg-clip-text p-3 text-xl font-extrabold text-transparent">
             Super Blog Admin Panel
           </h1>
 
           <Dialuge></Dialuge>
 
-          <div className="flex items-center justify-center gap-4">
+          <div className="sm:hidden md:hidden lg:flex lg:items-center lg:justify-center lg:gap-4 ">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
@@ -128,7 +131,10 @@ export default function Admin_Layout() {
             </Form>
           </div>
         </header>
-        <ScrollArea className="h-[90dvh] w-full px-10 py-5" type="scroll">
+        <ScrollArea
+          className="w-full px-10 py-5 h-[98dvh] sm:h-[99svh] md:h-[98svh] lg:h-[90svh]"
+          type="scroll"
+        >
           <Outlet></Outlet>
         </ScrollArea>
       </div>
