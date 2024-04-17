@@ -211,12 +211,12 @@ export default function Admin_Posts() {
       <br />
       <br />
       {/* charts begin  here */}
-      <div className="flex items-center justify-center gap-6 border">
+      <div className="flex items-center justify-center gap-6 flex-wrap-reverse">
         <ClientOnly>
           {() => (
             <AreaChart
-              width={730}
-              height={450}
+              width={1000}
+              height={650}
               data={blogView}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
             >
@@ -251,14 +251,14 @@ export default function Admin_Posts() {
             </AreaChart>
           )}
         </ClientOnly>
-        <div className="w-[600px] bg-black/5">
-          <div className="h-[70px]  rounded bg-black/60">
-            <h1 className="p-4 font-mono text-3xl font-bold text-white">
+        <div className="w-full bg-black/5">
+          <div className="h-full  rounded bg-black/60">
+            <h1 className="p-2 font-mono text-xl font-bold text-white">
               Recent Blogs
             </h1>
           </div>
-          <div className="px-3 py-2">
-            <ScrollArea className="h-[500px]">
+          <div className="rounded px-3 py-2">
+            <ScrollArea className="h-[500px] rounded ">
               {p.map((x) => {
                 return (
                   <Blog_Card

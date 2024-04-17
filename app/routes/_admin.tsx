@@ -59,10 +59,15 @@ export default function Admin_Layout() {
   return (
     <div className=" flex h-[100dvh] items-start justify-start bg-slate-300">
       <aside
-        className="  flex h-full w-[83px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-300 ease-in-out hover:w-[280px] "
+        className="  flex h-full w-[85px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-300 ease-in-out hover:w-[280px] "
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
-        ref={parent}
+        // ref={parent}
+        style={{
+          transition: "all",
+          transitionDuration: "0.3s",
+          transitionTimingFunction: "ease-in-out",
+        }}
       >
         {admin_routes.map((ar) => {
           return (
@@ -70,17 +75,35 @@ export default function Admin_Layout() {
               {({ isActive, isPending, isTransitioning }) => (
                 <Button
                   variant={"outline"}
-                  className={`transition-all duration-200 ease-in-out animate-out ${
+                  style={{
+                    transition: "all",
+                    transitionDuration: "10ms",
+                    transitionTimingFunction: "ease-in-out",
+                  }}
+                  className={
                     isTransitioning
-                      ? "bg-green-400 transition-all duration-500 ease-in-out"
+                      ? "bg-green-400"
                       : isPending
                         ? "bg-blue-400"
                         : isActive
-                          ? `${show ? "w-[150px] border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white" : " border-none bg-slate-400  font-bold text-white   hover:bg-green-700 hover:text-white "}`
-                          : `${show ? "w-[150px] border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white" : "w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white"}`
-                  }`}
+                          ? "w-fit border-none bg-slate-400   font-bold text-white hover:bg-green-700    hover:text-white "
+                          : "w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white"
+                  }
                 >
-                  {show ? ar.label : ar.icon}
+                  <div className="flex items-center justify-between gap-3 ">
+                    <span className="w-[8px]">{ar.icon}</span>
+                    <span
+                      style={{
+                        transition: "all",
+                        transitionDuration: "0.3s",
+                        transitionTimingFunction: "ease-in-out",
+                    
+                      }}
+                      className={show ? "w-[100px] opacity-100" : "w-0 opacity-0 overflow-hidden"}
+                    >
+                      {ar.label}
+                    </span>
+                  </div>
                 </Button>
               )}
             </NavLink>

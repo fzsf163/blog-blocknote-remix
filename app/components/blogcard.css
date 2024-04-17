@@ -1,8 +1,8 @@
 .card {
-  width: 100%;
-  height: 130px;
+  width: 90%;
+  height: 100px;
   background: rgb(17, 4, 134);
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow:
     rgb(0, 0, 0, 0.7) 1px 3px 5px,
     rgb(0, 0, 0, 0.7) 5px 0px 5px;
@@ -13,7 +13,7 @@
   flex-direction: column;
   background: linear-gradient(to right, rgb(20, 30, 48), rgb(36, 59, 85));
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.1s ease-in-out;
   overflow: hidden;
 }
 
@@ -28,7 +28,7 @@
   margin-top: 0px;
   margin-left: 15px;
   font-weight: 600;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  /* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
 }
 
 .time-sub-text {
@@ -41,7 +41,7 @@
   margin-top: 0px;
   margin-left: 15px;
   font-weight: 500;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  /* font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif; */
 }
 
 .moon {
