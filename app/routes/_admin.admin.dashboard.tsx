@@ -81,6 +81,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     select: {
       title: true,
       createdAt: true,
+      id: true,
     },
   });
 
@@ -211,7 +212,7 @@ export default function Admin_Posts() {
       <br />
       <br />
       {/* charts begin  here */}
-      <div className="flex items-center justify-center gap-6 flex-wrap-reverse">
+      <div className="flex flex-wrap-reverse items-center justify-center gap-6">
         <ClientOnly>
           {() => (
             <AreaChart
@@ -265,6 +266,7 @@ export default function Admin_Posts() {
                     name={x.title}
                     time={x.createdAt}
                     key={x.title + x.createdAt}
+                    id={x.id}
                   ></Blog_Card>
                 );
               })}
