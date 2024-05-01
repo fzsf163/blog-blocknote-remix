@@ -92,15 +92,15 @@ export default function Action_Center() {
   const loaderData = useLoaderData<typeof loader>();
   console.log("🚀 ~ FancyButton ~ loaderData:", loaderData);
   return (
-    <div className="py-3">
-      <p className="text-sm italic">
+    <div className="py-3 inter-font-400">
+      <p className="text-sm">
         Welcome to{" "}
-        <span className="rounded-full bg-[#7c656a]/60 px-6  py-2 font-sans text-white underline underline-offset-2 not-italic font-semibold drop-shadow-lg cursor-pointer">
+        <span className="cursor-pointer rounded-full bg-black/80  px-6 py-2 font-sans font-semibold not-italic text-white underline underline-offset-2 drop-shadow-lg">
           Action Center
         </span>
       </p>
       <Tabs defaultValue="slider" className="mt-10 min-w-full">
-        <TabsList className="h-auto w-full bg-[#7c656a]/60 p-4 text-white ">
+        <TabsList className="h-auto w-full bg-black/80 p-4 text-white ">
           <TabsTrigger
             value="slider"
             className="m:text-sm rounded-full px-6 py-2  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl"
@@ -142,7 +142,7 @@ export default function Action_Center() {
           {/* this is the add button */}
           <div className="flex items-center justify-start gap-3">
             <div>
-              <h1 className="font-serif text-lg font-semibold text-[#7c656a]">
+              <h1 className=" text-lg font-semibold text-[#7c656a]">
                 Add to Slider
               </h1>
             </div>

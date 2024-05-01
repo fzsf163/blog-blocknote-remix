@@ -1,10 +1,5 @@
 import type { LinksFunction } from "@remix-run/node";
-import {
-  Form,
-  MetaFunction,
-  NavLink,
-  Outlet,
-} from "@remix-run/react";
+import { Form, MetaFunction, NavLink, Outlet } from "@remix-run/react";
 
 import { Button } from "~/components/ui/button";
 import { ScrollArea } from "~/components/ui/scroll-area";
@@ -21,7 +16,6 @@ import {
   UserCog,
   LocateFixed,
 } from "lucide-react";
-
 
 export const meta: MetaFunction = () => {
   return [
@@ -53,16 +47,16 @@ const admin_routes = [
 
 export default function Admin_Layout() {
   const [show, setShow] = useState<boolean>(false);
- 
+
   return (
     <div className=" flex h-[100dvh] items-start justify-start bg-slate-300">
       <aside
-        className="hidden h-full  w-[85px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-300 ease-in-out hover:w-[280px] sm:hidden md:hidden lg:flex"
+        className="hidden h-full  w-[85px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-150 ease-in-out hover:w-[280px] sm:hidden md:hidden lg:flex"
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
         style={{
           transition: "all",
-          transitionDuration: "0.3s",
+          transitionDuration: "0.2s",
           transitionTimingFunction: "ease-in-out",
         }}
       >
@@ -72,19 +66,12 @@ export default function Admin_Layout() {
               {({ isActive, isPending, isTransitioning }) => (
                 <Button
                   variant={"outline"}
-                  style={{
-                    transition: "all",
-                    transitionDuration: "10ms",
-                    transitionTimingFunction: "ease-in-out",
-                  }}
                   className={
-                    isTransitioning
-                      ? "bg-green-400"
-                      : isPending
-                        ? "bg-blue-400"
-                        : isActive
-                          ? "w-fit border-none bg-slate-400   font-bold text-white hover:bg-green-700    hover:text-white "
-                          : "w-fit border-black bg-transparent text-black/50  hover:border-none hover:bg-green-700 hover:font-semibold  hover:text-white"
+                    isPending
+                      ? "bg-blue-400"
+                      : isActive
+                        ? "w-fit bg-slate-400 font-bold text-white hover:bg-green-500  hover:text-white"
+                        : "w-fit border-black bg-transparent font-semibold  text-black/50 hover:bg-green-400"
                   }
                 >
                   <div className="flex items-center justify-between gap-3 ">
@@ -129,7 +116,7 @@ export default function Admin_Layout() {
           </div>
         </header>
         <ScrollArea
-          className="w-full px-10 py-5 h-[98dvh] sm:h-[99svh] md:h-[98svh] lg:h-[90svh]"
+          className="h-[98dvh] w-full px-10 py-5 sm:h-[99svh] md:h-[98svh] lg:h-[90svh]"
           type="scroll"
         >
           <Outlet></Outlet>
