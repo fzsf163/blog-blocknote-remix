@@ -57,7 +57,6 @@ export default function Admin_Profile() {
   const fetcher = useFetcher();
   //@ts-ignore
   const imgUrl = fetcher.data?.file?.url;
-  // console.log("🚀 ~ Admin_Profile ~ fetcher:", fetcher.data?.file?.url);
   const [parent] = useAutoAnimate(/* optional config */);
   const { bio, email, id, image, name, password }: user = data!;
   useEffect(() => {
@@ -72,27 +71,24 @@ export default function Admin_Profile() {
     }
   }, [imgUrl]);
   return (
-    <div className="w-[100%] px-3 py-5">
-      <h1 className=" text-left font-mono text-xl font-bold">Profile </h1>
-      <div className="flex flex-col items-start justify-center gap-4">
+    <div className="w-[100%] px-3 py-5 inter-font-400">
+      <h1 className=" text-left text-xl font-bold">Profile </h1>
+      <div className="flex flex-col items-start justify-center gap-10 md:flex-row">
         <div
-          className="relative h-[350px] w-full rounded border"
+          className="relative h-full w-full rounded border md:w-[40%] "
           ref={parent}
           onMouseEnter={() => setShow(true)}
           onMouseLeave={() => setShow(false)}
         >
           {image ? (
-            <img
-              src={image!}
-              className="h-[350px]  w-full rounded object-cover "
-            ></img>
+            <img src={image!} className="h-full  w-full rounded object-cover "></img>
           ) : (
             <p className="h-full rounded bg-slate-600 pt-24 text-center font-mono font-bold text-white">
               No Image Found
             </p>
           )}
           {show && (
-            <div className="absolute left-3 top-3 text-white">
+            <div className="absolute left-3 top-3 text-white ">
               <label className="flex cursor-pointer items-center justify-center gap-3 rounded bg-slate-500 px-3 py-4">
                 Upload Image
                 <Image></Image>
@@ -118,7 +114,7 @@ export default function Admin_Profile() {
         </div>
         <div className="w-full space-y-3" ref={parent}>
           <div className="flex items-center justify-start gap-2">
-            <h1 className="font-mono text-lg font-semibold">
+            <h1 className=" text-lg font-semibold">
               Personal Details
             </h1>
             <div>
@@ -127,40 +123,40 @@ export default function Admin_Profile() {
               </ClientOnly>
             </div>
           </div>
-          <div className=" [&_p]:text-md space-y-8 [&_p]:rounded-md [&_p]:p-3 [&_p]:font-serif [&_p]:font-light [&_p]:underline [&_p]:underline-offset-4">
-            <div className="flex items-center justify-start gap-10">
-              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600">
-                <Contact className="text-green-700"></Contact> Bio
+          <div className=" [&_p]:text-md  space-y-8 [&_p]:rounded-md [&_p]:p-3  [&_p]:font-bold [&_p]:underline [&_p]:underline-offset-4 ">
+            <div className="flex flex-col items-start justify-start gap-3">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/80 text-white shadow-md shadow-slate-600">
+                <Contact className="text-green-500"></Contact> Bio
               </p>
-              <h3 className="rounded bg-transparent  px-4  py-3 text-center font-normal  shadow-md  shadow-blue-900 sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+              <h3 className="rounded bg-transparent/50  px-9  py-6 text-center   text-white shadow-md  shadow-slate-900 sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
                 {bio ?? "Not found"}
               </h3>
             </div>
-            <div className="flex items-center justify-start gap-10">
-              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600">
-                <ALargeSmall className="text-green-700"></ALargeSmall> Name
+            <div className="flex  flex-col items-start justify-start gap-3">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/80 text-white shadow-md shadow-slate-600">
+                <ALargeSmall className="text-green-500"></ALargeSmall> Name
               </p>
-              <h1 className="rounded px-4  py-3  text-xl  font-normal  shadow-md shadow-blue-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
+              <h1 className="bg-transparent/50  px-9  py-6 text-center   text-white shadow-md  shadow-slate-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
                 {name ?? "Not found"}
               </h1>
             </div>
 
-            <div className="flex items-center justify-start gap-10">
-              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600">
+            <div className="flex  flex-col items-start justify-start gap-3">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/80 text-white shadow-md shadow-slate-600">
                 {" "}
-                <Mail className="text-green-700"></Mail> Email
+                <Mail className="text-green-500"></Mail> Email
               </p>
-              <h2 className="rounded px-4  py-3  text-xl  font-normal  shadow-md shadow-blue-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
+              <h2 className="bg-transparent/50  px-9  py-6 text-center   text-white shadow-md  shadow-slate-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
                 {email ?? "Not found"}
               </h2>
             </div>
 
-            <div className="flex items-center justify-start gap-10">
-              <p className="flex w-fit items-center justify-start gap-2 bg-black/20 text-white shadow-md shadow-slate-600 ">
+            <div className="flex  flex-col items-start justify-start gap-3">
+              <p className="flex w-fit items-center justify-start gap-2 bg-black/80 text-white shadow-md shadow-slate-600 ">
                 {" "}
-                <ScanEye className="text-green-700"></ScanEye> Author ID
+                <ScanEye className="text-green-500"></ScanEye> Author ID
               </p>
-              <h2 className="rounded px-4   py-3  text-xl  font-normal  shadow-md shadow-blue-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
+              <h2 className="bg-transparent/50  px-9  py-6 text-center   text-white shadow-md  shadow-slate-900 sm:text-sm  md:text-base  lg:text-lg xl:text-xl 2xl:text-2xl">
                 {id ?? "Not found"}
               </h2>
             </div>
