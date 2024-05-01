@@ -96,7 +96,7 @@ export default function Admin_Posts() {
   // console.log("🚀 ~ Admin_Posts ~ blgs:", blogs);
 
   return (
-    <div className="w-[100%]">
+    <div className="w-[375px] sm:w-[600px] md:w-full">
       <DataTable columns={columns} data={blogs}></DataTable>
     </div>
   );

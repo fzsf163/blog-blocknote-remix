@@ -80,60 +80,57 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="rounded-md  p-4">
+    <div className="p-4">
       {/* <div className="flex-1 text-lg font-semibold text-black">
         {table.getFilteredSelectedRowModel().rows.length} of{" "}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div> */}
-      <div className="flex w-full items-center justify-center gap-10">
-        <div className="flex items-center justify-center gap-10">
-          <Input
-            placeholder={`Filter ${position}...`}
-            value={
-              (table.getColumn(position!)?.getFilterValue() as string) ?? ""
-            }
-            onChange={(event) =>
-              table.getColumn(position!)?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm text-black"
-          />
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="bg-slate-500 text-white hover:bg-gray-900 hover:text-gray-200"
-              >
-                Select Filter
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-full bg-slate-500 text-white hover:bg-gray-900 hover:text-gray-200">
-              <DropdownMenuLabel>Column names</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuRadioGroup
-                value={position}
-                onValueChange={setPosition}
-              >
-                <DropdownMenuRadioItem value="author">
-                  Author
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="title">
-                  Title
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="published">
-                  Date
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+      <div className="grid grid-cols-4 gap-2">
+        <Input
+          placeholder={`Filter ${position}...`}
+          value={(table.getColumn(position!)?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn(position!)?.setFilterValue(event.target.value)
+          }
+          className=" text-black "
+        />
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              className="bg-slate-500 text-white hover:bg-gray-900 hover:text-gray-200"
+            >
+              Select Filter
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-full bg-slate-500 text-white hover:bg-gray-900 hover:text-gray-200">
+            <DropdownMenuLabel>Column names</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              value={position}
+              onValueChange={setPosition}
+            >
+              <DropdownMenuRadioItem value="author">
+                Author
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="title">Title</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="published">
+                Date
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto text-black">
+            <Button
+              variant="outline"
+              className="bg-slate-400 text-black hover:bg-gray-900 hover:text-gray-700"
+            >
               Columns
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="center" className="w-full">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
@@ -153,12 +150,13 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+
         <Button>
           <Link to={"/admin/posts/create"}>Creat a Post</Link>
         </Button>
       </div>
       {/* actual table */}
-      <Table className="mt-5 bg-black/30 text-white">
+      <Table className="mt-5 bg-black/60 text-white">
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
@@ -183,7 +181,7 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className=" data-[state=selected]:bg-green-100 data-[state=selected]:text-black hover:bg-black"
+                className=" hover:bg-black data-[state=selected]:bg-green-100 data-[state=selected]:text-black"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell className="text-center" key={cell.id}>
@@ -202,7 +200,7 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
 
-      <div className="flex items-center justify-end space-x-2 p-4 text-black">
+      <div className="flex flex-col space-y-3 text-black sm:p-4 md:flex-row md:items-baseline md:justify-end md:space-x-2">
         <span className="flex items-center gap-1 text-lg">
           <div className="font-mono">Page</div>
           <strong className="font-mono">
