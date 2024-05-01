@@ -4,7 +4,6 @@ import {
   MetaFunction,
   NavLink,
   Outlet,
-  useFetcher,
 } from "@remix-run/react";
 
 import { Button } from "~/components/ui/button";
@@ -22,7 +21,7 @@ import {
   UserCog,
   LocateFixed,
 } from "lucide-react";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+
 
 export const meta: MetaFunction = () => {
   return [
@@ -54,15 +53,13 @@ const admin_routes = [
 
 export default function Admin_Layout() {
   const [show, setShow] = useState<boolean>(false);
-  const [parent] = useAutoAnimate();
-  // useEffect(() => {}, [show]);
+ 
   return (
     <div className=" flex h-[100dvh] items-start justify-start bg-slate-300">
       <aside
         className="hidden h-full  w-[85px] flex-col items-center justify-start gap-4 bg-zinc-200 px-2 pt-10 transition-all duration-300 ease-in-out hover:w-[280px] sm:hidden md:hidden lg:flex"
         onMouseEnter={() => setShow(true)}
         onMouseLeave={() => setShow(false)}
-        // ref={parent}
         style={{
           transition: "all",
           transitionDuration: "0.3s",
