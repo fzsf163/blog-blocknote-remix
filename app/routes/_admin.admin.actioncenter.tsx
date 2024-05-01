@@ -92,7 +92,7 @@ export default function Action_Center() {
   const loaderData = useLoaderData<typeof loader>();
   console.log("🚀 ~ FancyButton ~ loaderData:", loaderData);
   return (
-    <div className="py-3 inter-font-400">
+    <div className="inter-font-400 py-3">
       <p className="text-sm">
         Welcome to{" "}
         <span className="cursor-pointer rounded-full bg-black/80  px-6 py-2 font-sans font-semibold not-italic text-white underline underline-offset-2 drop-shadow-lg">
@@ -149,13 +149,10 @@ export default function Action_Center() {
             <ClientOnly>
               {() => (
                 <Sheet>
-                  <SheetTrigger asChild>
-                    <HoverComponent
-                      HoverSub={<Cross></Cross>}
-                      HoverTEXT="Add to Slider"
-                    ></HoverComponent>
+                  <SheetTrigger>
+                    <Cross></Cross>
                   </SheetTrigger>
-                  <SheetContent side={"top"}>
+                  <SheetContent side={"left"}>
                     <SheetHeader>
                       <SheetTitle>Are you absolutely sure?</SheetTitle>
                       <SheetDescription>
@@ -172,8 +169,70 @@ export default function Action_Center() {
 
           <div className="m-10 h-[254px] w-[190px] rounded-[30px] bg-[#e0e0e0] shadow-[15px_15px_30px_#bebebe,-15px_-15px_30px_#ffffff]"></div>
         </TabsContent>
-        <TabsContent value="featured">Feature the GOATS</TabsContent>
-        <TabsContent value="trending">Go somethign trendy.</TabsContent>
+        <TabsContent value="featured">
+          {" "}
+          <div className="flex items-center justify-start gap-3">
+            <div>
+              <h1 className=" text-lg font-semibold text-[#7c656a]">
+                Add to Featured
+              </h1>
+            </div>
+            <ClientOnly>
+              {() => (
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <HoverComponent
+                      HoverSub={<Cross></Cross>}
+                      HoverTEXT="Add to Featured"
+                    ></HoverComponent>
+                  </SheetTrigger>
+                  <SheetContent side={"top"}>
+                    <SheetHeader>
+                      <SheetTitle>Are you absolutely sure?</SheetTitle>
+                      <SheetDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+              )}
+            </ClientOnly>
+          </div>
+        </TabsContent>
+        <TabsContent value="trending">
+          {" "}
+          <div className="flex items-center justify-start gap-3">
+            <div>
+              <h1 className=" text-lg font-semibold text-[#7c656a]">
+                Add to Trending
+              </h1>
+            </div>
+            <ClientOnly>
+              {() => (
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <HoverComponent
+                      HoverSub={<Cross></Cross>}
+                      HoverTEXT="Add to Treanding"
+                    ></HoverComponent>
+                  </SheetTrigger>
+                  <SheetContent side={"top"}>
+                    <SheetHeader>
+                      <SheetTitle>Are you absolutely sure?</SheetTitle>
+                      <SheetDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </SheetDescription>
+                    </SheetHeader>
+                  </SheetContent>
+                </Sheet>
+              )}
+            </ClientOnly>
+          </div>
+        </TabsContent>
         <TabsContent value="comments">JUST CHILL COMMENTS</TabsContent>
         <TabsContent value="author">
           {" "}
