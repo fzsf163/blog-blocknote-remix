@@ -1,4 +1,4 @@
-# Welcome to Remix!
+# Welcome to Repo, Blocknote with remixjs!
 
 - [Remix Docs](https://remix.run/docs)
 
